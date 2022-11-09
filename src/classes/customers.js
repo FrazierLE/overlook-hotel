@@ -1,7 +1,13 @@
+import singleCustomer from './singleCustomer'
+
 class Customers {
-  constructor(customerData) {
-    this.id = customerData.id;
-    this.name = customerData.name
+  constructor(customers) {
+    this.customers = this.createCustomers(customers)
+  }
+  createCustomers(customers) {
+    return customers.map((customerInfo) => {
+      return new singleCustomer(customerInfo)
+    })
   }
 }
 

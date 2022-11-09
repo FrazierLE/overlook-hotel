@@ -7,5 +7,4 @@ class Bookings {
   }
 }
 
-
 export default Bookings;
