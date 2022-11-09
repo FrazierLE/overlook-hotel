@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- <link rel="stylesheet" href="src/styles.css"> -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
+  <title>Overlook Hotel</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
+      <style>
+        nav {
+          background-image: url(./images/hotel-overlook.png);
+          background-size: cover;
+          background-position-y: center;
+          height: 35vh;
+          width: 100vw;
+        }
+      </style>
+      <nav class="flex">
+        <menu class="button-container flex">
+          <button type="button" id="home-button" class="buttons">Home</button>
+          <button type="button" id="previous-button" class="buttons">Previous Bookings</button>
+          <button type="button" id="logout-button" class="buttons">Logout</button>
+        </menu>
+      </nav>
+  
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
