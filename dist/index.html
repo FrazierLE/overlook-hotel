@@ -36,7 +36,13 @@
         <h2 id="bookings">Upcoming Bookings</h2>
       </section>
     </section>
-    <section class="centerStage">
+    <section class="centerStage flex">
+      <menu class="dates flex">
+        <label for="start">Checkin:</label>
+        <input type="date" id="startDate" name="trip-start" value="" min="2022-11-15" max="2023-11-15">
+        <label for="start">Checkout:</label>
+        <input type="date" id="endDate" name="trip-end" value="" min="2022-11-16" max="2023-11-16">
+      </menu>
     </section>
   </main>
 
