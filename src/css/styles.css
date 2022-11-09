@@ -33,9 +33,32 @@ nav {
   width: 95vw;
 }
 
-main {
-  justify-content: center;
-}
 h1 {
   font-size: 3.5rem;
+  justify-content: center;
+  border-bottom: 3px solid black;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+
+.stageLeft {
+  flex-direction: column;
+  height: max-content;
+  border: 3px solid black;
+  width: 25vw;
+}
+
+.moneySection {
+  border: 2px solid green;
+  height: 10vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.upcomingBookings {
+  border: 2px solid red;
+  height: 100vh;
+  justify-content: center;
+  font-size: 2rem;
 }

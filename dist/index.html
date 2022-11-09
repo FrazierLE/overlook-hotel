@@ -9,25 +9,35 @@
 </head>
 <body>
   <header class="flex">
-  <style>
-    header {
-      background-image: url(./images/hotel-overlook.png);
-      background-size: cover;
-      background-position-y: center;
-      height: 35vh;
-      width: 100vw;
-    }
-  </style>
-  <nav class="flex">
-    <menu class="button-container flex">
-      <button type="button" id="home-button" class="buttons">Home</button>
-      <button type="button" id="previous-button" class="buttons">Previous Bookings</button>
-      <button type="button" id="logout-button" class="buttons">Logout</button>
-    </menu>
-  <nav>
+    <style>
+      header {
+        background-image: url(./images/hotel-overlook.png);
+        background-size: cover;
+        background-position-y: center;
+        height: 35vh;
+        width: 100vw;
+      }
+    </style>
+    <nav class="flex">
+      <menu class="button-container flex">
+        <button type="button" id="home-button" class="buttons">Home</button>
+        <button type="button" id="previous-button" class="buttons">Previous Bookings</button>
+        <button type="button" id="logout-button" class="buttons">Logout</button>
+      </menu>
+    <nav>
   </header>
+  <h1 class="flex">Welcome to the Overlook Hotel</h1>
   <main class="flex">
-    <h1>Welcome to the Overlook Hotel</h1>
+    <section class="stageLeft flex">
+      <section class="moneySection flex">
+        <h2 id="dollars-spent">Total Amount: </h2>
+      </section>
+      <section class="upcomingBookings flex" id="upcoming-bookings">
+        <h2 id="bookings">Upcoming Bookings</h2>
+      </section>
+    </section>
+    <section class="centerStage">
+    </section>
   </main>
 
   
