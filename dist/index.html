@@ -37,12 +37,18 @@
       </section>
     </section>
     <section class="centerStage flex">
-      <menu class="dates flex">
+      <form class="dates flex">
         <label for="start">Checkin:</label>
-        <input type="date" id="startDate" name="trip-start" value="" min="2022-11-15" max="2023-11-15">
+        <input type="date" id="startDate" class="clickable" name="trip-start" value="" min="2022-11-15" max="2023-11-15" >
         <label for="start">Checkout:</label>
-        <input type="date" id="endDate" name="trip-end" value="" min="2022-11-16" max="2023-11-16">
-      </menu>
+        <input type="date" id="endDate" class="clickable" name="trip-end" value="" min="2022-11-16" max="2023-11-16">
+      </form>
+        <section class="flex search">
+          <select class="clickable">
+            <option class="clickable">Choose Room Type...</option>
+          </select>
+          <button type="button" id="search-button" class="buttons">Search</button> 
+        </section>
     </section>
   </main>
 
