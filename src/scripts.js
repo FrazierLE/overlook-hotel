@@ -5,9 +5,40 @@
 import './css/styles.css';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+// import './images/turing-logo.png'
 import './images/hotel.png'
 import './images/hotel-overlook.png'
 
+import getData from './apiCalls'
+import Customers from './classes/customers'
+import Rooms from './classes/rooms'
+import Bookings from './classes/bookings'
 
-console.log('This is the JavaScript entry file - your code begins here.');
+// console.log('This is the JavaScript entry file - your code begins here.');
+
+const customersURL = 'http://localhost:3001/api/v1/customers'
+const roomsURL = 'http://localhost:3001/api/v1/rooms'
+const bookingsURL = 'http://localhost:3001/api/v1/bookings'
+let customers;
+let apiCustomers
+let rooms;
+let apiRooms;
+let bookings;
+let apiBookings;
+
+window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
+
+function fetchData(urls) {
+  Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
+      .then(data => {
+          apiCustomers = data[0]
+          apiRooms = data[1]
+          apiBookings = data[2]
+          customers = new Customers(apiCustomers)
+          rooms = new Rooms(apiRooms)
+          bookings = new Bookings(apiBookings)
+      })
+      .catch(err => {
+          console.log('Fetch Error: ', err)
+      })
+}
