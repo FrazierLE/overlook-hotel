@@ -1,20 +1,20 @@
 import { expect } from 'chai'
-import Customers from '../src/classes/customers'
+import Customer from '../src/classes/customer'
 import { sampleCustomers } from '../data/sample-data'
 
 
-describe('Customers', () => {
+describe('Customer', () => {
   sampleCustomers
   let customer1, customer2
 
   beforeEach(() => {
     sampleCustomers
-    customer1 = new Customers(sampleCustomers[0])
-    customer2 = new Customers(sampleCustomers[1])
+    customer1 = new Customer(sampleCustomers[0])
+    customer2 = new Customer(sampleCustomers[1])
   })
   
   it('should be a function', () => {
-    expect(Customers).to.be.a('function')
+    expect(Customer).to.be.a('function')
   })
   it('should have an id', () => {
     expect(customer1.id).to.equal(1)

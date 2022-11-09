@@ -1,8 +1,8 @@
-class Customers {
+class Customer {
   constructor(customerData) {
     this.id = customerData.id;
     this.name = customerData.name
   }
 }
 
-export default Customers;
+export default Customer;

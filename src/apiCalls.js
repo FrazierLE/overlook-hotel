@@ -10,4 +10,4 @@ const getData = (url) => {
       console.log('Fetch Error: ', err)
     })
   }
-export default getData
+export default getData;
