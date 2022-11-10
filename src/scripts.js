@@ -31,13 +31,16 @@ let apiRooms;
 let apiBookings;
 
 const homeButton = document.querySelector('#home-button');
-const bookingHistory = document.querySelector('#previous-button');
+const bookingHistoryButton = document.querySelector('#previous-button');
+const previousBookingSection = document.querySelector('#previous-bookings');
 const logoutButton = document.querySelector('#logout-button');
 const dollarsSpentSection = document.querySelector('#dollars-spent');
 const upcomingSection = document.querySelector('#upcoming-bookings');
+const bookingSection = document.querySelector('#booking-section');
 
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
+bookingHistoryButton.addEventListener('click', displayBookingHistory);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -64,6 +67,7 @@ function randomizeCustomer(data) {
 
 
 function displayHomePage(rooms, bookings) {
+  homeButton.classList.add('hidden');
   activateCustomerMethods(rooms, bookings)
   upcomingSection.innerHTML = ''
   customer.upcomingBookings.forEach(element => {
@@ -82,4 +86,11 @@ function activateCustomerMethods(rooms, bookings) {
   customer.filterBookings(bookings)
   customer.determineBookings()
   customer.calculateTotal(rooms)
+}
+
+function displayBookingHistory() {
+  bookingHistoryButton.classList.add('hidden');
+  bookingSection.classList.add('hidden');
+  homeButton.classList.remove('hidden');
+  previousBookingSection.classList.remove('hidden');
 }
