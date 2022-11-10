@@ -67,7 +67,7 @@ function randomizeCustomer(data) {
 
 
 function displayHomePage(rooms, bookings) {
-  homeButton.classList.add('hidden');
+  hide([homeButton])
   activateCustomerMethods(rooms, bookings)
   upcomingSection.innerHTML = ''
   customer.upcomingBookings.forEach(element => {
@@ -89,8 +89,18 @@ function activateCustomerMethods(rooms, bookings) {
 }
 
 function displayBookingHistory() {
-  bookingHistoryButton.classList.add('hidden');
-  bookingSection.classList.add('hidden');
-  homeButton.classList.remove('hidden');
-  previousBookingSection.classList.remove('hidden');
+  hide([bookingHistoryButton, bookingSection])
+  show([homeButton, previousBookingSection])
+}
+
+function hide(elementList) {
+  elementList.forEach((currentElement) => {
+      currentElement.classList.add('hidden')
+  })
+}
+
+function show(elementList) {
+  elementList.forEach((currentElement) => {
+      currentElement.classList.remove('hidden')
+  })
 }
