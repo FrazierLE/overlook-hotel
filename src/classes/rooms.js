@@ -6,7 +6,11 @@ class Rooms {
     this.bedSize = roomData.bedSize;
     this.numBeds = roomData.numBeds;
     this.costPerNight = roomData.costPerNight;
+    this.isAvailable;
   }
+  // determineAvailability(bookingsInfo) {
+
+  // }
 }
 
 export default Rooms;
