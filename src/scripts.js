@@ -33,7 +33,7 @@ let apiBookings;
 const homeButton = document.querySelector('#home-button');
 const bookingHistory = document.querySelector('#previous-button');
 const logoutButton = document.querySelector('#logout-button');
-export const dollarsSpentSection = document.querySelector('#money-section');
+const dollarsSpentSection = document.querySelector('#dollars-spent');
 const upcomingSection = document.querySelector('#upcoming-bookings');
 
 
@@ -49,7 +49,7 @@ function fetchData(urls) {
           rooms = new Rooms(apiRooms.rooms)
           bookings = new Bookings(apiBookings.bookings)
           randomizeCustomer(apiCustomers.customers)
-          displayTotalDollarsSpent(apiRooms.rooms, apiBookings.bookings)
+          displayHomePage(apiRooms.rooms, apiBookings.bookings)
       })
       .catch(err => {
           console.log('Fetch Error: ', err)
@@ -63,7 +63,7 @@ function randomizeCustomer(data) {
 }
 
 
-function displayTotalDollarsSpent(rooms, bookings) {
+function displayHomePage(rooms, bookings) {
   activateCustomerMethods(rooms, bookings)
   upcomingSection.innerHTML = ''
   customer.upcomingBookings.forEach(element => {
@@ -75,8 +75,7 @@ function displayTotalDollarsSpent(rooms, bookings) {
     </figure>
     `
   })
-  // dollarsSpentSection.innerText = 'Hello'
-  // dollarsSpentSection.innerHTML += `<p>${customer.previousBookings}</p>`
+  dollarsSpentSection.innerHTML += `<h2 class="totalDollars">$${customer.totalDollarsSpent}</h2>`
 }
 
 function activateCustomerMethods(rooms, bookings) {
@@ -84,11 +83,3 @@ function activateCustomerMethods(rooms, bookings) {
   customer.determineBookings()
   customer.calculateTotal(rooms)
 }
-
-// function displayHomePage() {
-//   activateCustomerMethods()
-//   displayTotalDollarsSpent(rooms, bookings)
-//   customer.upcomingBookings.forEach(element => {
-//     console.log('element', element)
-//   })
-// }

@@ -56,6 +56,12 @@ h1 {
   font-size: 1.5rem;
 }
 
+.totalDollars {
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
 .upcomingBookings {
   border: 2px solid red;
   height: max-content;
