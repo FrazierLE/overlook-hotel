@@ -23,16 +23,17 @@ const bookingsURL = 'http://localhost:3001/api/v1/bookings'
 let customers;
 let customer;
 let randomCustomer;
-let apiCustomers
 let rooms;
-let apiRooms;
+let user;
 let bookings;
+let apiCustomers
+let apiRooms;
 let apiBookings;
 
 const homeButton = document.querySelector('#home-button');
 const bookingHistory = document.querySelector('#previous-button');
 const logoutButton = document.querySelector('#logout-button');
-const dollarsSpentSection = document.querySelector('#money-section');
+export const dollarsSpentSection = document.querySelector('#money-section');
 const upcomingSection = document.querySelector('#upcoming-bookings');
 
 
@@ -45,9 +46,10 @@ function fetchData(urls) {
           apiRooms = data[1]
           apiBookings = data[2]
           customers = new Customers(apiCustomers.customers)
-          rooms = new Rooms(apiRooms)
-          bookings = new Bookings(apiBookings)
+          rooms = new Rooms(apiRooms.rooms)
+          bookings = new Bookings(apiBookings.bookings)
           randomizeCustomer(apiCustomers.customers)
+          displayTotalDollarsSpent(apiRooms.rooms, apiBookings.bookings)
       })
       .catch(err => {
           console.log('Fetch Error: ', err)
@@ -59,3 +61,34 @@ function randomizeCustomer(data) {
   customer = new singleCustomer(randomCustomer)
   return customer
 }
+
+
+function displayTotalDollarsSpent(rooms, bookings) {
+  activateCustomerMethods(rooms, bookings)
+  upcomingSection.innerHTML = ''
+  customer.upcomingBookings.forEach(element => {
+    upcomingSection.innerHTML += `
+    <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
+    <img src='#' alt='hotel room'>
+    <p>Room Number: ${element.roomNumber}</p>
+    <p>Checkin Date: ${element.date}</p>
+    </figure>
+    `
+  })
+  // dollarsSpentSection.innerText = 'Hello'
+  // dollarsSpentSection.innerHTML += `<p>${customer.previousBookings}</p>`
+}
+
+function activateCustomerMethods(rooms, bookings) {
+  customer.filterBookings(bookings)
+  customer.determineBookings()
+  customer.calculateTotal(rooms)
+}
+
+// function displayHomePage() {
+//   activateCustomerMethods()
+//   displayTotalDollarsSpent(rooms, bookings)
+//   customer.upcomingBookings.forEach(element => {
+//     console.log('element', element)
+//   })
+// }

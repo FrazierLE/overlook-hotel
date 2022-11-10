@@ -14,13 +14,7 @@ class singleCustomer {
     this.allBookings = allBookings
   }
  determineBookings() {
-  // const bookingList = bookingInfo.reduce((acc, element) => {
-  //   if(element.userID === this.id) {
-  //     acc.push(element)
-  //   }
-  //   return acc
-  // }, [])
-this.allBookings.forEach(element => {
+  this.allBookings.forEach(element => {
     if (new Date(element.date) > new Date(this.currentDate)) {
       this.upcomingBookings.push(element)
     }
@@ -36,7 +30,7 @@ this.allBookings.forEach(element => {
     })
     return acc
   }, 0)
-  this.totalDollarsSpent = total
+  this.totalDollarsSpent = total.toFixed(2)
  } 
  determineAvailableRooms(roomInfo) {
   const availableRooms = this.allBookings.reduce((acc, roomValue) => {
