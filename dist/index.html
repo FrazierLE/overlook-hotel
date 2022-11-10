@@ -28,7 +28,7 @@
   <h1 class="flex">Welcome to the Overlook Hotel</h1>
   <main class="flex home">
     <section class="stageLeft flex">
-      <section class="moneySection flex">
+      <section class="moneySection id='money-section' flex">
         <h2 id="dollars-spent">Total Amount: </h2>
       </section>
       <section class="upcomingBookings flex" id="upcoming-bookings">
@@ -45,8 +45,12 @@
         <section class="flex search">
           <select class="clickable">
             <option value="chooseRoomType"class="clickable">Choose Room Type...</option>
+            <option value="residentialSuite" class="clickable">residential suite</option>
+            <option value="suite" class="clickable">suite</option>
+            <option value="juniorSuite" class="clickable">junior suite</option>
+            <option value="singleRoom" class="clickable">single room</option>
           </select>
-          <button type="button" id="search-button" class="buttons">Search</button> 
+          <button type="button" id="search-button" class="buttons">Search Availability</button> 
         </section>
     </section>
     <section class="previousBookings" id="previous-bookings"></section>
