@@ -49,6 +49,14 @@ export const sampleRooms = [
   "bedSize": "queen",
   "numBeds": 1,
   "costPerNight": 397.02
+  }, 
+  {
+  "number": 12,
+  "roomType": "single room",
+  "bidet": false,
+  "bedSize": "twin",
+  "numBeds": 2,
+  "costPerNight": 172.09
   }
   ];
 
@@ -76,5 +84,5 @@ export const sampleBookings = [
   "userID": 1,
   "date": "2022/02/05",
   "roomNumber": 12
-  }
+  }, 
 ];

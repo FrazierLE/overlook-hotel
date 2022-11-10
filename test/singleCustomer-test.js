@@ -1,16 +1,18 @@
 import { expect } from 'chai'
 import singleCustomer from '../src/classes/singleCustomer'
-import { sampleCustomers, sampleBookings } from '../data/sample-data'
+import { sampleCustomers, sampleBookings, sampleRooms } from '../data/sample-data'
 
 
 describe('Single Customer', () => {
   sampleCustomers
   sampleBookings
+  sampleRooms
   let customer1, customer2
 
   beforeEach(() => {
     sampleCustomers
     sampleBookings
+    sampleRooms
     customer1 = new singleCustomer(sampleCustomers[0])
     customer2 = new singleCustomer(sampleCustomers[1])
   })
@@ -26,14 +28,38 @@ describe('Single Customer', () => {
     expect(customer1.name).to.equal("Leatha Ullrich")
     expect(customer2.name).to.equal("Rocio Schuster")
   })
-  it('should have a list of bookings', () => {
-    expect(customer1.bookings).to.deep.equal([])
-    expect(customer2.bookings).to.deep.equal([])
+ it('should hold the current date', () => {
+    expect(customer1.currentDate).to.equal('2022/11/15')
   })
-  it('should hold a list of bookings', () => {
+  it('should have a record of previous bookings', () => {
+    expect(customer1.previousBookings).to.deep.equal([])
+    expect(customer2.previousBookings).to.deep.equal([])
+  })
+  it('should have a list of upcoming bookings', () => {
+    expect(customer1.upcomingBookings).to.deep.equal([])
+    expect(customer2.upcomingBookings).to.deep.equal([])
+  })
+  it('should keep track of total dollars spent at hotel', () => {
+    expect(customer1.totalDollarsSpent).to.equal(undefined)
+  })
+  it('should create lists of upcoming and previous bookings', () => {
     customer1.determineBookings(sampleBookings)
-    expect(customer1.bookings).to.deep.equal([sampleBookings[3]])
+    expect(customer1.previousBookings).to.deep.equal([sampleBookings[3]])
+    expect(customer1.upcomingBookings).to.deep.equal([])
+  })
+  it('should show lists of upcoming and previous bookings for a different customer', () => {
     customer2.determineBookings(sampleBookings)
-    expect(customer2.bookings).to.deep.equal([])
+    expect(customer2.previousBookings).to.deep.equal([])
+    expect(customer2.upcomingBookings).to.deep.equal([])
+  })
+  it('should calculate the total amount of money spent for all previous bookings', () => {
+    customer1.determineBookings(sampleBookings)
+    customer1.calculateTotal(sampleRooms)
+    expect(customer1.totalDollarsSpent).to.equal(172.09)
+  })
+  it('should calculate the total amount of money spent for all previous bookings', () => {
+    customer2.determineBookings(sampleBookings)
+    customer2.calculateTotal(sampleRooms)
+    expect(customer2.totalDollarsSpent).to.equal(0)
   })
 })
