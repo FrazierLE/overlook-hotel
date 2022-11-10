@@ -2,19 +2,25 @@ class singleCustomer {
   constructor(customerData) {
     this.id = customerData.id;
     this.name = customerData.name;
+    this.allBookings;
     this.previousBookings = [];
     this.upcomingBookings = [];
     this.currentDate = '2022/11/15';
     this.totalDollarsSpent;
     this.roomsAvailableToBook;
   }
- determineBookings(bookingInfo) {
-  const bookingList = bookingInfo.reduce((acc, element) => {
-    if(element.userID === this.id) {
-      acc.push(element)
-    }
-    return acc
-  }, []).forEach(element => {
+  filterBookings(bookingInfo) {
+    const allBookings = bookingInfo.filter(element => element.userID === this.id)
+    this.allBookings = allBookings
+  }
+ determineBookings() {
+  // const bookingList = bookingInfo.reduce((acc, element) => {
+  //   if(element.userID === this.id) {
+  //     acc.push(element)
+  //   }
+  //   return acc
+  // }, [])
+this.allBookings.forEach(element => {
     if (new Date(element.date) > new Date(this.currentDate)) {
       this.upcomingBookings.push(element)
     }
@@ -32,8 +38,8 @@ class singleCustomer {
   }, 0)
   this.totalDollarsSpent = total
  } 
- determineAvailableRooms(roomInfo, bookingInfo) {
-  const availableRooms = bookingInfo.reduce((acc, roomValue) => {
+ determineAvailableRooms(roomInfo) {
+  const availableRooms = this.allBookings.reduce((acc, roomValue) => {
     const filteredList = roomInfo.filter(element => {
       if(roomValue.roomNumber !== element.number) {
         return element
