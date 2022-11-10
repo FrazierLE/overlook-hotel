@@ -43,12 +43,12 @@ describe('Single Customer', () => {
     expect(customer1.totalDollarsSpent).to.equal(undefined)
   })
   it('should show which rooms are available to book', () => {
-    expect(customer2.roomsAvailableToBook).to.deep.equal([])
+    expect(customer2.roomsAvailableToBook).to.deep.equal(undefined)
   })
   it('should create lists of upcoming and previous bookings', () => {
     customer1.determineBookings(sampleBookings)
     expect(customer1.previousBookings).to.deep.equal([sampleBookings[3]])
-    expect(customer1.upcomingBookings).to.deep.equal([])
+    expect(customer1.upcomingBookings).to.deep.equal([sampleBookings[4]])
   })
   it('should show lists of upcoming and previous bookings for a different customer', () => {
     customer2.determineBookings(sampleBookings)
@@ -64,5 +64,9 @@ describe('Single Customer', () => {
     customer2.determineBookings(sampleBookings)
     customer2.calculateTotal(sampleRooms)
     expect(customer2.totalDollarsSpent).to.equal(0)
+  })
+  it('should show lists of available rooms', () => {
+    customer1.determineAvailableRooms(sampleRooms, sampleBookings)
+    expect(customer1.roomsAvailableToBook).to.deep.equal([sampleRooms[0], sampleRooms[1], sampleRooms[2], sampleRooms[3], sampleRooms[4]])
   })
 })

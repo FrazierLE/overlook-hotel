@@ -57,6 +57,14 @@ export const sampleRooms = [
   "bedSize": "twin",
   "numBeds": 2,
   "costPerNight": 172.09
+  }, 
+  {
+  "number": 20,
+  "roomType": "residential suite",
+  "bidet": false,
+  "bedSize": "queen",
+  "numBeds": 1,
+  "costPerNight": 343.95
   }
   ];
 
@@ -85,4 +93,10 @@ export const sampleBookings = [
   "date": "2022/02/05",
   "roomNumber": 12
   }, 
+  {
+  "id": "5fwrgu4i7k55hl6x8",
+  "userID": 1,
+  "date": "2023/01/11",
+  "roomNumber": 20
+  }
 ];
