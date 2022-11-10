@@ -6,6 +6,7 @@ class singleCustomer {
     this.upcomingBookings = [];
     this.currentDate = '2022/11/15';
     this.totalDollarsSpent;
+    this.roomsAvailableToBook = [];
   }
  determineBookings(bookingInfo) {
   const bookingList = bookingInfo.reduce((acc, element) => {

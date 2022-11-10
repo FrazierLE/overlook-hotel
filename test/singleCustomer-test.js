@@ -42,6 +42,9 @@ describe('Single Customer', () => {
   it('should keep track of total dollars spent at hotel', () => {
     expect(customer1.totalDollarsSpent).to.equal(undefined)
   })
+  it('should show which rooms are available to book', () => {
+    expect(customer2.roomsAvailableToBook).to.deep.equal([])
+  })
   it('should create lists of upcoming and previous bookings', () => {
     customer1.determineBookings(sampleBookings)
     expect(customer1.previousBookings).to.deep.equal([sampleBookings[3]])
