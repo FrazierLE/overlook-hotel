@@ -29,6 +29,13 @@ let apiRooms;
 let bookings;
 let apiBookings;
 
+const homeButton = document.querySelector('#home-button');
+const bookingHistory = document.querySelector('#previous-button');
+const logoutButton = document.querySelector('#logout-button');
+const dollarsSpentSection = document.querySelector('#money-section');
+const upcomingSection = document.querySelector('#upcoming-bookings');
+
+
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 
 function fetchData(urls) {
