@@ -15,7 +15,7 @@ import getData from './apiCalls'
 import Customers from './classes/customers'
 import singleCustomer from './classes/singleCustomer';
 import Rooms from './classes/rooms'
-import Bookings from './classes/bookings'
+import Booking from './classes/bookings'
 
 const customersURL = 'http://localhost:3001/api/v1/customers'
 const roomsURL = 'http://localhost:3001/api/v1/rooms'
@@ -49,10 +49,12 @@ function fetchData(urls) {
       .then(data => {
           apiCustomers = data[0]
           apiRooms = data[1]
+          console.log('apiRooms', apiRooms.rooms)
           apiBookings = data[2]
+          console.log('apiBookings', apiBookings.bookings)
           customers = new Customers(apiCustomers.customers)
           rooms = new Rooms(apiRooms.rooms)
-          bookings = new Bookings(apiBookings.bookings)
+          bookings = new Booking(apiBookings.bookings)
           randomizeCustomer(apiCustomers.customers)
           displayHomePage(apiRooms.rooms, apiBookings.bookings)
       })

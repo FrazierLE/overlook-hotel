@@ -70,7 +70,7 @@ describe('Single Customer', () => {
     customer2.filterBookings(sampleBookings)
     customer2.determineBookings()
     customer2.calculateTotal(sampleRooms)
-    expect(customer2.totalDollarsSpent).to.equal(0)
+    expect(customer2.totalDollarsSpent).to.equal(0.00)
   })
   it('should show lists of available rooms', () => {
     customer1.filterBookings(sampleBookings)

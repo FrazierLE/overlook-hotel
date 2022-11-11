@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import Bookings from '../src/classes/bookings'
+import Booking from '../src/classes/bookings'
 import { sampleBookings } from '../data/sample-data'
 
 describe('Bookings', () => {
@@ -8,12 +8,12 @@ describe('Bookings', () => {
 
   beforeEach(() => {
     sampleBookings
-    booking1 = new Bookings(sampleBookings[0])
-    booking2 = new Bookings(sampleBookings[1])
+    booking1 = new Booking(sampleBookings[0])
+    booking2 = new Booking(sampleBookings[1])
   })
 
   it('should be a function', () => {
-    expect(Bookings).to.be.a('function')
+    expect(Booking).to.be.a('function')
   })
   it('should have an id', () => {
     expect(booking1.id).to.equal('5fwrgu4i7k55hl6sz')

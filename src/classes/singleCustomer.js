@@ -12,13 +12,16 @@ class singleCustomer {
   filterBookings(bookingInfo) {
     const allBookings = bookingInfo.filter(element => element.userID === this.id)
     this.allBookings = allBookings
+    console.log('ALL', this.allBookings)
   }
  determineBookings() {
   this.allBookings.forEach(element => {
     if (new Date(element.date) > new Date(this.currentDate)) {
       this.upcomingBookings.push(element)
+      console.log('UPCOMING', this.upcomingBookings)
     }
     else{this.previousBookings.push(element)}
+    console.log('PREVIOUS', this.previousBookings)
   })
  }
  calculateTotal(roomsInfo) {
@@ -30,7 +33,7 @@ class singleCustomer {
     })
     return acc
   }, 0)
-  this.totalDollarsSpent = total.toFixed(2)
+  this.totalDollarsSpent = Number(total.toFixed(2))
  } 
  determineAvailableRooms(roomInfo) {
   const availableRooms = this.allBookings.reduce((acc, roomValue) => {
