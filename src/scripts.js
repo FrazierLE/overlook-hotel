@@ -69,9 +69,10 @@ function randomizeCustomer(data) {
 
 function displayHomePage(rooms, bookings) {
   hide([homeButton, previousBookingSection])
-  show([bookingSection])
+  show([bookingSection, bookingHistoryButton])
   activateCustomerMethods(rooms, bookings)
   upcomingSection.innerHTML = ''
+  upcomingSection.innerHTML = `<h2>Upcoming Bookings</h2>`
   customer.upcomingBookings.forEach(element => {
     upcomingSection.innerHTML += `
     <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
@@ -91,8 +92,19 @@ function activateCustomerMethods(rooms, bookings) {
 }
 
 function displayBookingHistory() {
-  hide([bookingHistoryButton, bookingSection])
   show([homeButton, previousBookingSection])
+  hide([bookingHistoryButton, bookingSection])
+  activateCustomerMethods(apiRooms.rooms, apiBookings.bookings)
+  previousBookingSection.innerHTML = ''
+  customer.previousBookings.forEach(element => {
+    previousBookingSection.innerHTML += `
+    <figure class ='previousRooms' id='${element.id}' tabindex='0'>
+    <img src='#' alt='hotel room'>
+    <p>Room Number: ${element.roomNumber}</p>
+    <p>Checkin Date: ${element.date}</p>
+    </figure>
+    `
+  })
 }
 
 function hide(elementList) {

@@ -62,7 +62,8 @@ h1 {
   justify-content: center;
 }
 
-.upcomingBookings {
+.upcomingBookings, 
+.previousBookings  {
   border: 2px solid red;
   height: max-content;
   justify-content: center;
@@ -101,11 +102,17 @@ h1 {
 
 .previousBookings {
   border: 3px solid blue;
-  height: 100vh;
+  height: 300vh;
   margin-left: 20px;
-  width: 60vw;
-  justify-content: center;
+  width: 100vw;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   font-size: 2rem;
+}
+
+.previousRooms {
+  border: 3px solid green;
 }
 
 .search {
