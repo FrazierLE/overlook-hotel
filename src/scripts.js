@@ -24,6 +24,9 @@ const bookingsURL = 'http://localhost:3001/api/v1/bookings'
 let customers;
 let customer;
 let randomCustomer;
+let comparedDates;
+let chosenDate;
+let filteredSearch;
 let room;
 let user;
 let accounts
@@ -127,5 +130,37 @@ function show(elementList) {
 const checkInDate = document.querySelector('#startDate')
 checkInDate.addEventListener('change', checkDateAvailability)
 function checkDateAvailability() {
-  const updated = checkInDate.value.split('-').join('/')
+  chosenDate = checkInDate.value.split('-').join('/')
+  comparedDates = accounts.bookings.filter(booking => {
+    return booking.date !== chosenDate
+  })
+  console.log(comparedDates)
+  return comparedDates
 }
+
+
+let roomTypeChoices = document.querySelector('.roomOptions')
+roomTypeChoices.addEventListener('change', filterByRoomType)
+function filterByRoomType() {
+  filteredSearch = accounts.rooms.reduce((acc, room) => {
+    const numberOfRoomsBooked = accounts.bookings.reduce((numberBooked, booking) => {
+      if(booking.date === chosenDate) {
+        numberBooked.push(booking.roomNumber)
+      }
+      return numberBooked
+    }, [])
+    if(!numberOfRoomsBooked.includes(room.number)) {
+      acc.push(room)
+    }
+    return acc
+  }, []).filter(room => {
+    if(roomTypeChoices.value === room.roomType) {
+      return room
+    }
+    else {
+      return room
+    }
+  })
+  return filteredSearch
+}
+
