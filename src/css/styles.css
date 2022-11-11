@@ -121,6 +121,13 @@ h1 {
   justify-content: space-evenly;
 }
 
+.searchResults {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+  flex-direction: column;
+}
+
 .clickable {
   cursor: pointer;
 }

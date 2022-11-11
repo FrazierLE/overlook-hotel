@@ -43,6 +43,7 @@ const dollarsSpentSection = document.querySelector('#dollars-spent');
 const upcomingSection = document.querySelector('#upcoming-bookings');
 const bookingSection = document.querySelector('#booking-section');
 const title = document.querySelector('#title');
+const searchButton = document.querySelector('#search-button');
 
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
@@ -75,7 +76,7 @@ function randomizeCustomer(data) {
 
 
 function displayHomePage(rooms, bookings) {
-  hide([homeButton, previousBookingSection])
+  hide([homeButton, previousBookingSection, searchResultsSection])
   show([bookingSection, bookingHistoryButton])
   activateCustomerMethods(accounts.rooms, accounts.bookings)
   upcomingSection.innerHTML = ''
@@ -89,6 +90,7 @@ function displayHomePage(rooms, bookings) {
     </figure>
     `
   })
+  dollarsSpentSection.innerHTML = ''
   dollarsSpentSection.innerHTML += `<h2 class="totalDollars">$${customer.totalDollarsSpent}</h2>`
 }
 
@@ -100,7 +102,7 @@ function activateCustomerMethods(rooms, bookings) {
 
 function displayBookingHistory() {
   show([homeButton, previousBookingSection])
-  hide([bookingHistoryButton, bookingSection])
+  hide([bookingHistoryButton, bookingSection, searchResultsSection])
   activateCustomerMethods(accounts.rooms, accounts.bookings)
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
@@ -164,3 +166,21 @@ function filterByRoomType() {
   return filteredSearch
 }
 
+const searchResultsSection = document.querySelector('#search-results')
+searchButton.addEventListener('click', showAvailableRooms)
+function showAvailableRooms() {
+  hide([bookingSection])
+  show([homeButton, searchResultsSection])
+  searchResultsSection.innerHTML = ''
+  filteredSearch.forEach(element => {
+    searchResultsSection.innerHTML += `
+    <figure class ='searchResults' id='${element.id}' tabindex='0'>
+      <img src='#' alt='hotel room'>
+      <p>Room Number: ${element.number}</p>
+      <p>Room Type: ${element.roomType}</p>
+      <p>Room Cost: ${element.costPerNight}</p>
+      <button type="button">Book Room</button>
+    </figure>
+    `
+  })
+}
