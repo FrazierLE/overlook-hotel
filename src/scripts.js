@@ -78,6 +78,7 @@ function randomizeCustomer(data) {
 function displayHomePage(rooms, bookings) {
   hide([homeButton, previousBookingSection, searchResultsSection])
   show([bookingSection, bookingHistoryButton])
+  resetFilters()
   activateCustomerMethods(accounts.rooms, accounts.bookings)
   upcomingSection.innerHTML = ''
   upcomingSection.innerHTML = `<h2>Upcoming Bookings</h2>`
@@ -183,4 +184,9 @@ function showAvailableRooms() {
     </figure>
     `
   })
+}
+
+function resetFilters() {
+  roomTypeChoices.value = 'Choose Room Type...'
+  checkInDate.value = ''
 }
