@@ -14,8 +14,9 @@ import './images/hotel-overlook.png'
 import getData from './apiCalls'
 import Customers from './classes/customers'
 import singleCustomer from './classes/singleCustomer';
-import Rooms from './classes/rooms'
-import Booking from './classes/bookings'
+import Room from './classes/room'
+import Booking from './classes/booking'
+import Accounts from './classes/accounts'
 
 const customersURL = 'http://localhost:3001/api/v1/customers'
 const roomsURL = 'http://localhost:3001/api/v1/rooms'
@@ -23,9 +24,10 @@ const bookingsURL = 'http://localhost:3001/api/v1/bookings'
 let customers;
 let customer;
 let randomCustomer;
-let rooms;
+let room;
 let user;
-let bookings;
+let accounts
+let booking;
 let apiCustomers
 let apiRooms;
 let apiBookings;
@@ -49,14 +51,13 @@ function fetchData(urls) {
       .then(data => {
           apiCustomers = data[0]
           apiRooms = data[1]
-          console.log('apiRooms', apiRooms.rooms)
           apiBookings = data[2]
-          console.log('apiBookings', apiBookings.bookings)
           customers = new Customers(apiCustomers.customers)
-          rooms = new Rooms(apiRooms.rooms)
-          bookings = new Booking(apiBookings.bookings)
-          randomizeCustomer(apiCustomers.customers)
-          displayHomePage(apiRooms.rooms, apiBookings.bookings)
+          room = new Room(apiRooms.rooms)
+          booking = new Booking(apiBookings.bookings)
+          accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
+          randomizeCustomer(customers.customers)
+          displayHomePage(accounts.rooms, accounts.bookings)
       })
       .catch(err => {
           console.log('Fetch Error: ', err)
