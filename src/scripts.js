@@ -74,7 +74,7 @@ function randomizeCustomer(data) {
 function displayHomePage(rooms, bookings) {
   hide([homeButton, previousBookingSection])
   show([bookingSection, bookingHistoryButton])
-  activateCustomerMethods(rooms, bookings)
+  activateCustomerMethods(accounts.rooms, accounts.bookings)
   upcomingSection.innerHTML = ''
   upcomingSection.innerHTML = `<h2>Upcoming Bookings</h2>`
   customer.upcomingBookings.forEach(element => {
@@ -122,4 +122,10 @@ function show(elementList) {
   elementList.forEach((currentElement) => {
       currentElement.classList.remove('hidden')
   })
+}
+
+const checkInDate = document.querySelector('#startDate')
+checkInDate.addEventListener('change', checkDateAvailability)
+function checkDateAvailability() {
+  const updated = checkInDate.value.split('-').join('/')
 }
