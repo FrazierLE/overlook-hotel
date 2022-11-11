@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import Rooms from '../src/classes/rooms'
+import Room from '../src/classes/room'
 import { sampleRooms } from '../data/sample-data'
 
 describe('Rooms', () => {
@@ -8,12 +8,12 @@ describe('Rooms', () => {
 
   beforeEach(() => {
     sampleRooms
-    room1 = new Rooms(sampleRooms[0])
-    room2 = new Rooms(sampleRooms[1])
+    room1 = new Room(sampleRooms[0])
+    room2 = new Room(sampleRooms[1])
   })
   
   it('should be a function', () => {
-    expect(Rooms).to.be.a('function')
+    expect(Room).to.be.a('function')
   })
   it('should have a room number', () => {
     expect(room1.number).to.equal(1)

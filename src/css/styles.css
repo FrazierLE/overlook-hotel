@@ -25,7 +25,7 @@ nav {
   color: chocolate;
   margin: 0px 10px;
   height: 3vh;
-  width: 10vw;
+  width: max-content;
 }
 
 .button-container {
@@ -56,11 +56,30 @@ h1 {
   font-size: 1.5rem;
 }
 
-.upcomingBookings {
-  border: 2px solid red;
-  height: 100vh;
-  justify-content: center;
+.totalDollars {
   font-size: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.upcomingBookings, 
+.previousBookings  {
+  border: 2px solid red;
+  height: max-content;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.upcomingRooms {
+  border: 2px solid orange;
+  height: 16vh;
+  width: 16vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.5rem;
 }
 
 .centerStage {
@@ -76,9 +95,24 @@ h1 {
 .dates {
   justify-content: space-between;
   flex-direction: row;
-  width: 40vw;
+  width: 30vw;
   align-items: center;
   font-size: 1.5rem;
+}
+
+.previousBookings {
+  border: 3px solid blue;
+  height: 300vh;
+  margin-left: 20px;
+  width: 100vw;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  font-size: 2rem;
+}
+
+.previousRooms {
+  border: 3px solid green;
 }
 
 .search {
@@ -89,4 +123,8 @@ h1 {
 
 .clickable {
   cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }

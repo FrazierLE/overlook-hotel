@@ -20,36 +20,41 @@
     <nav class="flex">
       <menu class="button-container flex">
         <button type="button" id="home-button" class="buttons">Home</button>
-        <button type="button" id="previous-button" class="buttons">Previous Bookings</button>
+        <button type="button" id="previous-button" class="buttons">Past Bookings</button>
         <button type="button" id="logout-button" class="buttons">Logout</button>
       </menu>
     <nav>
   </header>
-  <h1 class="flex">Welcome to the Overlook Hotel</h1>
+  <h1 class="flex" id="title">Welcome to the Overlook Hotel</h1>
   <main class="flex home">
     <section class="stageLeft flex">
-      <section class="moneySection flex">
-        <h2 id="dollars-spent">Total Amount: </h2>
+      <section class="moneySection id='money-section' flex">
+        <h2 id="dollars-spent">Total Amount Spent: </h2>
       </section>
       <section class="upcomingBookings flex" id="upcoming-bookings">
         <h2 id="bookings">Upcoming Bookings</h2>
       </section>
     </section>
-    <section class="centerStage flex">
+    <section class="centerStage flex" id="booking-section">
       <form class="dates flex">
         <label for="start">Checkin:</label>
         <input type="date" id="startDate" class="clickable" name="trip-start" value="" min="2022-11-15" max="2023-11-15" >
-        <label for="start">Checkout:</label>
-        <input type="date" id="endDate" class="clickable" name="trip-end" value="" min="2022-11-16" max="2023-11-16">
+        <select class="clickable">
+          <option value="chooseRoomType"class="clickable">Choose Room Type...</option>
+          <option value="all" class="clickable">all</option>
+          <option value="residentialSuite" class="clickable">residential suite</option>
+          <option value="suite" class="clickable">suite</option>
+          <option value="juniorSuite" class="clickable">junior suite</option>
+          <option value="singleRoom" class="clickable">single room</option>
+        </select>
       </form>
         <section class="flex search">
-          <select class="clickable">
-            <option value="chooseRoomType"class="clickable">Choose Room Type...</option>
-          </select>
-          <button type="button" id="search-button" class="buttons">Search</button> 
+          <button type="button" id="search-button" class="buttons">Search Availability</button> 
         </section>
     </section>
-    <section class="previousBookings" id="previous-bookings"></section>
+    <section class="previousBookings flex" id="previous-bookings">
+      <h2>Previous Bookings</h2>
+    </section>
     <section class="login" id="logout"></section>
   </main>
 
