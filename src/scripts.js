@@ -37,6 +37,7 @@ const logoutButton = document.querySelector('#logout-button');
 const dollarsSpentSection = document.querySelector('#dollars-spent');
 const upcomingSection = document.querySelector('#upcoming-bookings');
 const bookingSection = document.querySelector('#booking-section');
+const title = document.querySelector('#title');
 
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
@@ -96,6 +97,7 @@ function displayBookingHistory() {
   hide([bookingHistoryButton, bookingSection])
   activateCustomerMethods(apiRooms.rooms, apiBookings.bookings)
   previousBookingSection.innerHTML = ''
+  title.innerText = 'Previous Bookings';
   customer.previousBookings.forEach(element => {
     previousBookingSection.innerHTML += `
     <figure class ='previousRooms' id='${element.id}' tabindex='0'>
