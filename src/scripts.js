@@ -41,6 +41,7 @@ const bookingSection = document.querySelector('#booking-section');
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 bookingHistoryButton.addEventListener('click', displayBookingHistory);
+homeButton.addEventListener('click', displayHomePage);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -67,7 +68,8 @@ function randomizeCustomer(data) {
 
 
 function displayHomePage(rooms, bookings) {
-  hide([homeButton])
+  hide([homeButton, previousBookingSection])
+  show([bookingSection])
   activateCustomerMethods(rooms, bookings)
   upcomingSection.innerHTML = ''
   customer.upcomingBookings.forEach(element => {
