@@ -28,7 +28,6 @@ let comparedDates;
 let chosenDate;
 let filteredSearch;
 let room;
-let user;
 let accounts
 let booking;
 let apiCustomers
@@ -48,7 +47,7 @@ const searchButton = document.querySelector('#search-button');
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 bookingHistoryButton.addEventListener('click', displayBookingHistory);
-homeButton.addEventListener('click', displayHomePage);
+homeButton.addEventListener('click', goHome);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -57,8 +56,8 @@ function fetchData(urls) {
           apiRooms = data[1]
           apiBookings = data[2]
           customers = new Customers(apiCustomers.customers)
-          room = new Room(apiRooms.rooms)
-          booking = new Booking(apiBookings.bookings)
+          // room = new Room(apiRooms.rooms)
+          // booking = new Booking(apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
           randomizeCustomer(customers.customers)
           displayHomePage(accounts.rooms, accounts.bookings)
@@ -78,7 +77,6 @@ function randomizeCustomer(data) {
 function displayHomePage(rooms, bookings) {
   hide([homeButton, previousBookingSection, searchResultsSection])
   show([bookingSection, bookingHistoryButton])
-  resetFilters()
   activateCustomerMethods(accounts.rooms, accounts.bookings)
   upcomingSection.innerHTML = ''
   upcomingSection.innerHTML = `<h2>Upcoming Bookings</h2>`
@@ -92,7 +90,15 @@ function displayHomePage(rooms, bookings) {
     `
   })
   dollarsSpentSection.innerHTML = ''
+  dollarsSpentSection.innerHTML = `<h2>Total Amount Spent</h2>`
   dollarsSpentSection.innerHTML += `<h2 class="totalDollars">$${customer.totalDollarsSpent}</h2>`
+}
+
+function goHome() {
+  hide([homeButton, previousBookingSection, searchResultsSection])
+  show([bookingSection, bookingHistoryButton])
+  resetFilters()
+  title.innerText = 'Welcome to the Overlook Hotel'
 }
 
 function activateCustomerMethods(rooms, bookings) {
@@ -180,7 +186,7 @@ function showAvailableRooms() {
       <p>Room Number: ${element.number}</p>
       <p>Room Type: ${element.roomType}</p>
       <p>Room Cost: ${element.costPerNight}</p>
-      <button type="button">Book Room</button>
+      <button type="button" id="${element.number}">Book Room</button>
     </figure>
     `
   })
@@ -189,4 +195,44 @@ function showAvailableRooms() {
 function resetFilters() {
   roomTypeChoices.value = 'Choose Room Type...'
   checkInDate.value = ''
+}
+
+let postData;
+searchResultsSection.addEventListener('click', (e) => {
+  if(e.target.closest('button')) {
+    postData = {"userID": customer.id, "date": chosenDate, "roomNumber": Number(e.target.id) }
+    console.log('postData', postData)
+    bookARoom(postData)
+  }
+})
+
+function bookARoom(postData) {
+  return fetch(bookingsURL, {
+      method: 'POST',
+      body: JSON.stringify(postData),
+      headers: { 'Content-Type': 'application/json' }
+  })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`Sorry, something went wrong. ${response.status}: ${response.statusText}`)
+          }
+          return response.json()
+      })
+      .then(test =>
+          getData(bookingsURL))
+      .then(data => {
+        console.log('data', data)
+        updateBookings(data.bookings)
+      })
+      .catch(err => {
+          console.log('Fetch Error: ', err)
+          errorMessage.innerHTML = `Oops, something went wrong. Try again later.`
+      })
+}
+
+function updateBookings(data) {
+  const updatedBookings = data.find(user => {
+    return user.id === user.userID
+  })
+  customer.allBookings.push(updatedBookings)
 }
