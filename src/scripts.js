@@ -98,7 +98,7 @@ function activateCustomerMethods(rooms, bookings) {
 function displayBookingHistory() {
   show([homeButton, previousBookingSection])
   hide([bookingHistoryButton, bookingSection])
-  activateCustomerMethods(apiRooms.rooms, apiBookings.bookings)
+  activateCustomerMethods(accounts.rooms, accounts.bookings)
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
   customer.previousBookings.forEach(element => {
