@@ -14,7 +14,6 @@ import './images/hotel-overlook.png'
 import getData from './apiCalls'
 import Customers from './classes/customers'
 import singleCustomer from './classes/singleCustomer';
-import Room from './classes/room'
 import Booking from './classes/booking'
 import Accounts from './classes/accounts'
 
