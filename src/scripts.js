@@ -57,7 +57,6 @@ function fetchData(urls) {
           apiRooms = data[1]
           apiBookings = data[2]
           customers = new Customers(apiCustomers.customers)
-          // room = new Room(apiRooms.rooms)
           booking = new Booking(apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
           randomizeCustomer(customers.customers)
@@ -86,15 +85,20 @@ function displayHomePage(rooms, bookings) {
 function displayUpcomingBookings() {
   upcomingSection.innerHTML = ''
   upcomingSection.innerHTML = `<h2>Upcoming Bookings</h2>`
-  customer.upcomingBookings.forEach(element => {
-    upcomingSection.innerHTML += `
-    <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
-    <img src='#' alt='hotel room'>
-    <p>Room Number: ${element.roomNumber}</p>
-    <p>Checkin Date: ${element.date}</p>
-    </figure>
-    `
-  })
+  if(customer.upcomingBookings.length === 0) {
+    upcomingSection.innerHTML = `${customer.name}, you have no upcoming bookings.`
+  }
+  else {
+    customer.upcomingBookings.forEach(element => {
+      upcomingSection.innerHTML += `
+      <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
+      <img src='#' alt='hotel room'>
+      <p>Room Number: ${element.roomNumber}</p>
+      <p>Checkin Date: ${element.date}</p>
+      </figure>
+      `
+    })
+  }
 }
 
 function displayDollarsSpent() {
