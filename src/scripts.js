@@ -48,7 +48,7 @@ const searchButton = document.querySelector('#search-button');
 const checkInDate = document.querySelector('#startDate');
 let roomTypeChoices = document.querySelector('.roomOptions');
 const searchResultsSection = document.querySelector('#search-results');
-const inputs = [roomTypeChoices, checkInDate]
+const inputs = [roomTypeChoices, checkInDate];
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 bookingHistoryButton.addEventListener('click', displayBookingHistory);
@@ -56,6 +56,7 @@ homeButton.addEventListener('click', goHome);
 checkInDate.addEventListener('change', checkDateAvailability);
 roomTypeChoices.addEventListener('change', filterByRoomType);
 searchButton.addEventListener('click', showAvailableRooms);
+searchResultsSection.addEventListener('click', bookIt);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -64,7 +65,7 @@ function fetchData(urls) {
           apiRooms = data[1]
           apiBookings = data[2]
           customers = new Customers(apiCustomers.customers)
-          booking = new Booking(apiBookings.bookings)
+          booking = new Booking (apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
           randomizeCustomer(customers.customers)
           displayHomePage(accounts.rooms, accounts.bookings)
@@ -222,10 +223,11 @@ function resetFilters() {
   roomTypeChoices.value = 'Choose Room Type...'
   checkInDate.value = ''
   searchButton.disabled = true;
+  searchButton.style.cursor = "not-allowed";
 }
 
-searchResultsSection.addEventListener('click', bookIt)
 function bookIt(e) {
+  // confirmBooking()
   if(e.target.closest('button')) {
     postData = {"userID": customer.id, "date": chosenDate, "roomNumber": Number(e.target.id) }
     bookARoom(postData)
@@ -233,8 +235,15 @@ function bookIt(e) {
   if(e.target.id.includes(postData.roomNumber.toString())) {
     e.target.parentElement.remove();
     filteredSearch.splice(['postData.roomNumber'], 1)
-
+    confirmBooking()
   }
+}
+
+function confirmBooking() {
+  searchResultsSection.innerHTML = `<p>${customer.name}, room booked!</p>`
+  setTimeout( () => {
+    showAvailableRooms()
+      }, 2000)
 }
 
 function bookARoom(postData) {
