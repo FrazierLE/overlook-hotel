@@ -14,7 +14,6 @@ import './images/hotel-overlook.png'
 import getData from './apiCalls'
 import Customers from './classes/customers'
 import singleCustomer from './classes/singleCustomer';
-import Room from './classes/room'
 import Booking from './classes/booking'
 import Accounts from './classes/accounts'
 
@@ -28,6 +27,7 @@ let comparedDates;
 let chosenDate;
 let filteredSearch;
 let newBooking;
+let postData;
 let room;
 let accounts
 let booking;
@@ -44,11 +44,18 @@ const upcomingSection = document.querySelector('#upcoming-bookings');
 const bookingSection = document.querySelector('#booking-section');
 const title = document.querySelector('#title');
 const searchButton = document.querySelector('#search-button');
-
+const checkInDate = document.querySelector('#startDate');
+let roomTypeChoices = document.querySelector('.roomOptions');
+const searchResultsSection = document.querySelector('#search-results');
+const inputs = [roomTypeChoices, checkInDate];
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 bookingHistoryButton.addEventListener('click', displayBookingHistory);
 homeButton.addEventListener('click', goHome);
+checkInDate.addEventListener('change', checkDateAvailability);
+roomTypeChoices.addEventListener('change', filterByRoomType);
+searchButton.addEventListener('click', showAvailableRooms);
+searchResultsSection.addEventListener('click', bookIt);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -57,8 +64,7 @@ function fetchData(urls) {
           apiRooms = data[1]
           apiBookings = data[2]
           customers = new Customers(apiCustomers.customers)
-          // room = new Room(apiRooms.rooms)
-          booking = new Booking(apiBookings.bookings)
+          booking = new Booking (apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
           randomizeCustomer(customers.customers)
           displayHomePage(accounts.rooms, accounts.bookings)
@@ -86,15 +92,20 @@ function displayHomePage(rooms, bookings) {
 function displayUpcomingBookings() {
   upcomingSection.innerHTML = ''
   upcomingSection.innerHTML = `<h2>Upcoming Bookings</h2>`
-  customer.upcomingBookings.forEach(element => {
-    upcomingSection.innerHTML += `
-    <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
-    <img src='#' alt='hotel room'>
-    <p>Room Number: ${element.roomNumber}</p>
-    <p>Checkin Date: ${element.date}</p>
-    </figure>
-    `
-  })
+  if(customer.upcomingBookings.length === 0) {
+    upcomingSection.innerHTML = `${customer.name}, you have no upcoming bookings.`
+  }
+  else {
+    customer.upcomingBookings.forEach(element => {
+      upcomingSection.innerHTML += `
+      <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
+      <img src='#' alt='hotel room'>
+      <p>Room Number: ${element.roomNumber}</p>
+      <p>Checkin Date: ${element.date}</p>
+      </figure>
+      `
+    })
+  }
 }
 
 function displayDollarsSpent() {
@@ -121,15 +132,20 @@ function displayBookingHistory() {
   hide([bookingHistoryButton, bookingSection, searchResultsSection])
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
-  customer.previousBookings.forEach(element => {
-    previousBookingSection.innerHTML += `
-    <figure class ='previousRooms' id='${element.id}' tabindex='0'>
-    <img src='#' alt='hotel room'>
-    <p>Room Number: ${element.roomNumber}</p>
-    <p>Checkin Date: ${element.date}</p>
-    </figure>
-    `
-  })
+  if(customer.previousBookings.length === 0) {
+    upcomingSection.innerHTML = `${customer.name}, you have no upcoming bookings.`
+  }
+  else {
+    customer.previousBookings.forEach(element => {
+      previousBookingSection.innerHTML += `
+      <figure class ='previousRooms' id='${element.id}' tabindex='0'>
+      <img src='#' alt='hotel room'>
+      <p>Room Number: ${element.roomNumber}</p>
+      <p>Checkin Date: ${element.date}</p>
+      </figure>
+      `
+    })
+  }
 }
 
 function hide(elementList) {
@@ -144,20 +160,14 @@ function show(elementList) {
   })
 }
 
-const checkInDate = document.querySelector('#startDate')
-checkInDate.addEventListener('change', checkDateAvailability)
 function checkDateAvailability() {
   chosenDate = checkInDate.value.split('-').join('/')
   comparedDates = accounts.bookings.filter(booking => {
     return booking.date !== chosenDate
   })
-  console.log(comparedDates)
   return comparedDates
 }
 
-
-let roomTypeChoices = document.querySelector('.roomOptions')
-roomTypeChoices.addEventListener('change', filterByRoomType)
 function filterByRoomType() {
   filteredSearch = accounts.rooms.reduce((acc, room) => {
     const numberOfRoomsBooked = accounts.bookings.reduce((numberBooked, booking) => {
@@ -181,43 +191,57 @@ function filterByRoomType() {
   return filteredSearch
 }
 
-const searchResultsSection = document.querySelector('#search-results')
-searchButton.addEventListener('click', showAvailableRooms)
 function showAvailableRooms() {
   hide([bookingSection])
   show([homeButton, searchResultsSection])
   searchResultsSection.innerHTML = ''
-  filteredSearch.forEach(element => {
-    searchResultsSection.innerHTML += `
-    <figure class ='searchResults' id='${element.number}' tabindex='0'>
-      <img src='#' alt='hotel room'>
-      <p>Room Number: ${element.number}</p>
-      <p>Room Type: ${element.roomType}</p>
-      <p>Room Cost: ${element.costPerNight}</p>
-      <button type="button" id="${element.number}">Book Room</button>
-    </figure>
-    `
-  })
+  if(filteredSearch.length === 0) {
+    searchResultsSection.innerHTML = `${customer.name}, no rooms available for either room type or date. Adjust your search`
+    setTimeout( () => {
+      hide([searchResultsSection])
+      show([bookingSection])
+      resetFilters()
+    }, 2000)
+  }
+  else {
+    filteredSearch.forEach(element => {
+      searchResultsSection.innerHTML += `
+      <figure class ='searchResults' id='${element.number}' tabindex='0'>
+        <img src='#' alt='hotel room'>
+        <p>Room Number: ${element.number}</p>
+        <p>Room Type: ${element.roomType}</p>
+        <p>Room Cost: ${element.costPerNight}</p>
+        <button type="button" id="${element.number}">Book Room</button>
+      </figure>
+      `
+    })
+  }
 }
 
 function resetFilters() {
   roomTypeChoices.value = 'Choose Room Type...'
   checkInDate.value = ''
+  searchButton.disabled = true;
+  searchButton.style.cursor = "not-allowed";
 }
 
-let postData;
-searchResultsSection.addEventListener('click', bookIt)
 function bookIt(e) {
   if(e.target.closest('button')) {
     postData = {"userID": customer.id, "date": chosenDate, "roomNumber": Number(e.target.id) }
-    console.log('postData', postData)
     bookARoom(postData)
   }
   if(e.target.id.includes(postData.roomNumber.toString())) {
     e.target.parentElement.remove();
     filteredSearch.splice(['postData.roomNumber'], 1)
-
+    confirmBooking()
   }
+}
+
+function confirmBooking() {
+  searchResultsSection.innerHTML = `<p>${customer.name}, room booked!</p>`
+  setTimeout( () => {
+    showAvailableRooms()
+      }, 2000)
 }
 
 function bookARoom(postData) {
@@ -249,3 +273,16 @@ function updateBookings() {
   newBooking = {id: Date.now().toString(), userID: postData.userID, date: postData.date, roomNumber: postData.roomNumber}
   customer.upcomingBookings.push(newBooking)
 }
+
+inputs.forEach(input => {
+  input.addEventListener('input', () => {
+    if(checkInDate.value !== '' && roomTypeChoices.value !== 'Choose Room Type...') {
+      searchButton.disabled = false
+      searchButton.style.cursor = "pointer";
+  }
+  else {
+    searchButton.disabled = true
+    }
+  })
+})
+

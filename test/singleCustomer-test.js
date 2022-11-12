@@ -29,7 +29,7 @@ describe('Single Customer', () => {
     expect(customer2.name).to.equal("Rocio Schuster")
   })
  it('should hold the current date', () => {
-    expect(customer1.currentDate).to.equal('2022/11/15')
+    expect(customer1.date).to.equal('2022/11/12')
   })
   it('should have a record of all bookings', () => {
     expect(customer1.allBookings).to.equal(undefined)
@@ -47,6 +47,9 @@ describe('Single Customer', () => {
   })
   it('should show which rooms are available to book', () => {
     expect(customer2.roomsAvailableToBook).to.deep.equal(undefined)
+  })
+  it('should set current date based on the current day', () => {
+    expect(customer1.setCurrentDate()).to.equal('2022/11/12')
   })
   it('should create lists of upcoming and previous bookings', () => {
     customer1.filterBookings(sampleBookings)
