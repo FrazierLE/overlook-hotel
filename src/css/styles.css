@@ -1,6 +1,7 @@
-/* body {
-  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-} */
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
 html {
   font-size: 62.5%;
   background-color: ghostwhite;
@@ -21,11 +22,11 @@ nav {
   cursor: pointer;
   border-radius: 5px;
   box-shadow: none;
-  background-color: darkgray;
-  color: chocolate;
+  background-color: white;
+  color: black;
   margin: 0px 10px;
-  height: 3vh;
-  width: max-content;
+  height: 4vh;
+  width: 16vw;
 }
 
 .button-container {
@@ -50,10 +51,9 @@ h1 {
 
 .moneySection {
   border: 2px solid green;
-  height: 10vh;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .totalDollars {
@@ -70,6 +70,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   font-size: 2rem;
+  line-height: 14px;
 }
 
 .upcomingRooms {
@@ -124,8 +125,9 @@ h1 {
 .searchResults {
   display: flex;
   flex-wrap: wrap;
-  height: 100vh;
+  height: 70vh;
   flex-direction: column;
+  font-size: 2rem;
 }
 
 .clickable {
@@ -138,4 +140,24 @@ h1 {
 
 .searchButton {
   cursor: not-allowed;
+  font-size: 1.5rem;
+}
+
+.hotelRooms {
+  height: 38%;
+}
+
+.totalDollars {
+  font: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+p {
+  font-size: 1.5rem;
+  margin: 2.5px;
 }

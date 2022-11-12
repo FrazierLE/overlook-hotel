@@ -100,8 +100,8 @@ function displayUpcomingBookings() {
       upcomingSection.innerHTML += `
       <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
       <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
-      <p>Room Number: ${element.roomNumber}</p>
-      <p>Checkin Date: ${element.date}</p>
+      <p class="roomNumber">Room Number: ${element.roomNumber}</p>
+      <p class="checkIn">Checkin Date: ${element.date}</p>
       </figure>
       `
     })
@@ -140,8 +140,8 @@ function displayBookingHistory() {
       previousBookingSection.innerHTML += `
       <figure class ='previousRooms' id='${element.id}' tabindex='0'>
       <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
-      <p>Room Number: ${element.roomNumber}</p>
-      <p>Checkin Date: ${element.date}</p>
+      <p class="roomNumber">Room Number: ${element.roomNumber}</p>
+      <p class="checkIn">Checkin Date: ${element.date}</p>
       </figure>
       `
     })
@@ -208,10 +208,10 @@ function showAvailableRooms() {
       searchResultsSection.innerHTML += `
       <figure class ='searchResults' id='${element.number}' tabindex='0'>
         <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
-        <p>Room Number: ${element.number}</p>
-        <p>Room Type: ${element.roomType}</p>
-        <p>Room Cost: ${element.costPerNight}</p>
-        <button type="button" id="${element.number}">Book Room</button>
+        <p class="roomNumber">Room Number: ${element.number}</p>
+        <p class="roomType">Room Type: ${element.roomType}</p>
+        <p class="roomCost">Room Cost: $${element.costPerNight}</p>
+        <button class="bookButton"type="button" id="${element.number}">Book Room</button>
       </figure>
       `
     })
