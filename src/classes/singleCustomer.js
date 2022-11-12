@@ -5,9 +5,17 @@ class singleCustomer {
     this.allBookings;
     this.previousBookings = [];
     this.upcomingBookings = [];
-    this.currentDate = '2022/11/15';
+    this.date = this.setCurrentDate()
     this.totalDollarsSpent;
     this.roomsAvailableToBook;
+  }
+  setCurrentDate() {
+    const date = new Date()
+      let day = date.getDate()
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+      let currentDate = `${year}-${month}-${day}`
+      return currentDate.split('-').join('/')
   }
   filterBookings(bookingInfo) {
     const allBookings = bookingInfo.filter(element => element.userID === this.id)
@@ -15,7 +23,7 @@ class singleCustomer {
   }
  determineBookings() {
   this.allBookings.forEach(element => {
-    if (new Date(element.date) > new Date(this.currentDate)) {
+    if (new Date(element.date) > new Date(this.date)) {
       this.upcomingBookings.push(element)
     }
     else{this.previousBookings.push(element)}

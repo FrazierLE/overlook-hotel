@@ -227,7 +227,6 @@ function resetFilters() {
 }
 
 function bookIt(e) {
-  // confirmBooking()
   if(e.target.closest('button')) {
     postData = {"userID": customer.id, "date": chosenDate, "roomNumber": Number(e.target.id) }
     bookARoom(postData)
@@ -287,3 +286,4 @@ inputs.forEach(input => {
     }
   })
 })
+
