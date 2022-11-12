@@ -8,6 +8,7 @@ import './css/styles.css';
 // import './images/turing-logo.png'
 import './images/hotel.png'
 import './images/hotel-overlook.png'
+import './images/hotel-room.png'
 
 
 // console.log('This is the JavaScript entry file - your code begins here.');
@@ -28,7 +29,6 @@ let chosenDate;
 let filteredSearch;
 let newBooking;
 let postData;
-let room;
 let accounts
 let booking;
 let apiCustomers
@@ -93,13 +93,13 @@ function displayUpcomingBookings() {
   upcomingSection.innerHTML = ''
   upcomingSection.innerHTML = `<h2>Upcoming Bookings</h2>`
   if(customer.upcomingBookings.length === 0) {
-    upcomingSection.innerHTML = `${customer.name}, you have no upcoming bookings.`
+    upcomingSection.innerHTML = `<p class="errorMessage">${customer.name}, you have no upcoming bookings.</p>`
   }
   else {
     customer.upcomingBookings.forEach(element => {
       upcomingSection.innerHTML += `
       <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
-      <img src='#' alt='hotel room'>
+      <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
       <p>Room Number: ${element.roomNumber}</p>
       <p>Checkin Date: ${element.date}</p>
       </figure>
@@ -110,7 +110,7 @@ function displayUpcomingBookings() {
 
 function displayDollarsSpent() {
   dollarsSpentSection.innerHTML = ''
-  dollarsSpentSection.innerHTML = `<h2>Total Amount Spent</h2>`
+  dollarsSpentSection.innerHTML = `<h2 class="dollarHeading">Total Amount Spent</h2>`
   dollarsSpentSection.innerHTML += `<h2 class="totalDollars">$${customer.totalDollarsSpent}</h2>`
 }
 
@@ -133,13 +133,13 @@ function displayBookingHistory() {
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
   if(customer.previousBookings.length === 0) {
-    upcomingSection.innerHTML = `${customer.name}, you have no upcoming bookings.`
+    upcomingSection.innerHTML = `<p class="errorMessage">${customer.name}, you have no upcoming bookings.</p>`
   }
   else {
     customer.previousBookings.forEach(element => {
       previousBookingSection.innerHTML += `
       <figure class ='previousRooms' id='${element.id}' tabindex='0'>
-      <img src='#' alt='hotel room'>
+      <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
       <p>Room Number: ${element.roomNumber}</p>
       <p>Checkin Date: ${element.date}</p>
       </figure>
@@ -196,7 +196,7 @@ function showAvailableRooms() {
   show([homeButton, searchResultsSection])
   searchResultsSection.innerHTML = ''
   if(filteredSearch.length === 0) {
-    searchResultsSection.innerHTML = `${customer.name}, no rooms available for either room type or date. Adjust your search`
+    searchResultsSection.innerHTML = `<p class="errorMessage">${customer.name}, no rooms available for either room type or date. Adjust your search</p>`
     setTimeout( () => {
       hide([searchResultsSection])
       show([bookingSection])
@@ -207,7 +207,7 @@ function showAvailableRooms() {
     filteredSearch.forEach(element => {
       searchResultsSection.innerHTML += `
       <figure class ='searchResults' id='${element.number}' tabindex='0'>
-        <img src='#' alt='hotel room'>
+        <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
         <p>Room Number: ${element.number}</p>
         <p>Room Type: ${element.roomType}</p>
         <p>Room Cost: ${element.costPerNight}</p>
