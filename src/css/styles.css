@@ -135,3 +135,7 @@ h1 {
 .hidden {
   display: none;
 }
+
+.searchButton {
+  cursor: not-allowed;
+}

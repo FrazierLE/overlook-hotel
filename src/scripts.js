@@ -271,7 +271,10 @@ inputs.forEach(input => {
   input.addEventListener('input', () => {
     if(checkInDate.value !== '' && roomTypeChoices.value !== 'Choose Room Type...') {
       searchButton.disabled = false
+      searchButton.style.cursor = "pointer";
   }
-  else {searchButton.disabled = true}
+  else {
+    searchButton.disabled = true
+    }
   })
 })
