@@ -48,6 +48,7 @@ const searchButton = document.querySelector('#search-button');
 const checkInDate = document.querySelector('#startDate');
 let roomTypeChoices = document.querySelector('.roomOptions');
 const searchResultsSection = document.querySelector('#search-results');
+const inputs = [roomTypeChoices, checkInDate]
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 bookingHistoryButton.addEventListener('click', displayBookingHistory);
@@ -217,27 +218,10 @@ function showAvailableRooms() {
   }
 }
 
-// searchButton.addEventListener('input', () => {
-//   if(roomTypeChoices.value !== 'Choose Room Type...' || checkInDate.value !== '') {
-//     searchButton.disabled = false
-// }
-// else {searchButton.disabled = true}
-// })
-// function informUser() {
-//   if(roomTypeChoices.value !== 'Choose Room Type...' || checkInDate.value !== '') {
-//       // searchResultsSection.innerHTML = `${customer.name}, choose a date and a room type`
-//       searchButton.disabled = false
-//       // setTimeout( () => {
-//       //   hide([searchResultsSection])
-//       //   show([bookingSection])
-//       // }, 2000)
-//   }
-//   else {searchButton.disabled = true}
-// }
-
 function resetFilters() {
   roomTypeChoices.value = 'Choose Room Type...'
   checkInDate.value = ''
+  searchButton.disabled = true;
 }
 
 searchResultsSection.addEventListener('click', bookIt)
@@ -282,3 +266,12 @@ function updateBookings() {
   newBooking = {id: Date.now().toString(), userID: postData.userID, date: postData.date, roomNumber: postData.roomNumber}
   customer.upcomingBookings.push(newBooking)
 }
+
+inputs.forEach(input => {
+  input.addEventListener('input', () => {
+    if(checkInDate.value !== '' && roomTypeChoices.value !== 'Choose Room Type...') {
+      searchButton.disabled = false
+  }
+  else {searchButton.disabled = true}
+  })
+})
