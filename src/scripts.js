@@ -125,15 +125,20 @@ function displayBookingHistory() {
   hide([bookingHistoryButton, bookingSection, searchResultsSection])
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
-  customer.previousBookings.forEach(element => {
-    previousBookingSection.innerHTML += `
-    <figure class ='previousRooms' id='${element.id}' tabindex='0'>
-    <img src='#' alt='hotel room'>
-    <p>Room Number: ${element.roomNumber}</p>
-    <p>Checkin Date: ${element.date}</p>
-    </figure>
-    `
-  })
+  if(customer.previousBookings.length === 0) {
+    upcomingSection.innerHTML = `${customer.name}, you have no upcoming bookings.`
+  }
+  else {
+    customer.previousBookings.forEach(element => {
+      previousBookingSection.innerHTML += `
+      <figure class ='previousRooms' id='${element.id}' tabindex='0'>
+      <img src='#' alt='hotel room'>
+      <p>Room Number: ${element.roomNumber}</p>
+      <p>Checkin Date: ${element.date}</p>
+      </figure>
+      `
+    })
+  }
 }
 
 function hide(elementList) {
@@ -191,17 +196,38 @@ function showAvailableRooms() {
   hide([bookingSection])
   show([homeButton, searchResultsSection])
   searchResultsSection.innerHTML = ''
-  filteredSearch.forEach(element => {
-    searchResultsSection.innerHTML += `
-    <figure class ='searchResults' id='${element.number}' tabindex='0'>
-      <img src='#' alt='hotel room'>
-      <p>Room Number: ${element.number}</p>
-      <p>Room Type: ${element.roomType}</p>
-      <p>Room Cost: ${element.costPerNight}</p>
-      <button type="button" id="${element.number}">Book Room</button>
-    </figure>
-    `
-  })
+  informUser()
+  if(filteredSearch.length === 0) {
+    searchResultsSection.innerHTML = `${customer.name}, no rooms available for either room type or date. Adjust your search`
+    setTimeout( () => {
+      hide([searchResultsSection])
+      show([bookingSection])
+      resetFilters()
+    }, 2000)
+  }
+  else {
+    filteredSearch.forEach(element => {
+      searchResultsSection.innerHTML += `
+      <figure class ='searchResults' id='${element.number}' tabindex='0'>
+        <img src='#' alt='hotel room'>
+        <p>Room Number: ${element.number}</p>
+        <p>Room Type: ${element.roomType}</p>
+        <p>Room Cost: ${element.costPerNight}</p>
+        <button type="button" id="${element.number}">Book Room</button>
+      </figure>
+      `
+    })
+  }
+}
+
+function informUser() {
+  if(roomTypeChoices.value === 'Choose Room Type...' || checkInDate.value === '') {
+      searchResultsSection.innerHTML = `${customer.name}, choose a date and a room type`
+      setTimeout( () => {
+        hide([searchResultsSection])
+        show([bookingSection])
+      }, 2000)
+  }
 }
 
 function resetFilters() {
