@@ -87,6 +87,7 @@ function displayHomePage(rooms, bookings) {
   activateCustomerMethods(accounts.rooms, accounts.bookings)
   displayUpcomingBookings()
   displayDollarsSpent()
+  title.innerText = `Welcome to the Overlook Hotel, ${customer.name}`
 }
 
 function displayUpcomingBookings() {
@@ -118,7 +119,6 @@ function goHome() {
   hide([homeButton, previousBookingSection, searchResultsSection])
   show([bookingSection, bookingHistoryButton])
   resetFilters()
-  title.innerText = 'Welcome to the Overlook Hotel'
 }
 
 function activateCustomerMethods(rooms, bookings) {
