@@ -24,8 +24,11 @@ const bookingsURL = 'http://localhost:3001/api/v1/bookings'
 let customers;
 let customer;
 let randomCustomer;
+let comparedDates;
+let chosenDate;
+let filteredSearch;
+let newBooking;
 let room;
-let user;
 let accounts
 let booking;
 let apiCustomers
@@ -40,11 +43,12 @@ const dollarsSpentSection = document.querySelector('#dollars-spent');
 const upcomingSection = document.querySelector('#upcoming-bookings');
 const bookingSection = document.querySelector('#booking-section');
 const title = document.querySelector('#title');
+const searchButton = document.querySelector('#search-button');
 
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 bookingHistoryButton.addEventListener('click', displayBookingHistory);
-homeButton.addEventListener('click', displayHomePage);
+homeButton.addEventListener('click', goHome);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -53,7 +57,7 @@ function fetchData(urls) {
           apiRooms = data[1]
           apiBookings = data[2]
           customers = new Customers(apiCustomers.customers)
-          room = new Room(apiRooms.rooms)
+          // room = new Room(apiRooms.rooms)
           booking = new Booking(apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
           randomizeCustomer(customers.customers)
@@ -72,9 +76,14 @@ function randomizeCustomer(data) {
 
 
 function displayHomePage(rooms, bookings) {
-  hide([homeButton, previousBookingSection])
+  hide([homeButton, previousBookingSection, searchResultsSection])
   show([bookingSection, bookingHistoryButton])
-  activateCustomerMethods(rooms, bookings)
+  activateCustomerMethods(accounts.rooms, accounts.bookings)
+  displayUpcomingBookings()
+  displayDollarsSpent()
+}
+
+function displayUpcomingBookings() {
   upcomingSection.innerHTML = ''
   upcomingSection.innerHTML = `<h2>Upcoming Bookings</h2>`
   customer.upcomingBookings.forEach(element => {
@@ -86,7 +95,19 @@ function displayHomePage(rooms, bookings) {
     </figure>
     `
   })
+}
+
+function displayDollarsSpent() {
+  dollarsSpentSection.innerHTML = ''
+  dollarsSpentSection.innerHTML = `<h2>Total Amount Spent</h2>`
   dollarsSpentSection.innerHTML += `<h2 class="totalDollars">$${customer.totalDollarsSpent}</h2>`
+}
+
+function goHome() {
+  hide([homeButton, previousBookingSection, searchResultsSection])
+  show([bookingSection, bookingHistoryButton])
+  resetFilters()
+  title.innerText = 'Welcome to the Overlook Hotel'
 }
 
 function activateCustomerMethods(rooms, bookings) {
@@ -97,8 +118,7 @@ function activateCustomerMethods(rooms, bookings) {
 
 function displayBookingHistory() {
   show([homeButton, previousBookingSection])
-  hide([bookingHistoryButton, bookingSection])
-  activateCustomerMethods(accounts.rooms, accounts.bookings)
+  hide([bookingHistoryButton, bookingSection, searchResultsSection])
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
   customer.previousBookings.forEach(element => {
@@ -122,4 +142,110 @@ function show(elementList) {
   elementList.forEach((currentElement) => {
       currentElement.classList.remove('hidden')
   })
+}
+
+const checkInDate = document.querySelector('#startDate')
+checkInDate.addEventListener('change', checkDateAvailability)
+function checkDateAvailability() {
+  chosenDate = checkInDate.value.split('-').join('/')
+  comparedDates = accounts.bookings.filter(booking => {
+    return booking.date !== chosenDate
+  })
+  console.log(comparedDates)
+  return comparedDates
+}
+
+
+let roomTypeChoices = document.querySelector('.roomOptions')
+roomTypeChoices.addEventListener('change', filterByRoomType)
+function filterByRoomType() {
+  filteredSearch = accounts.rooms.reduce((acc, room) => {
+    const numberOfRoomsBooked = accounts.bookings.reduce((numberBooked, booking) => {
+      if(booking.date === chosenDate) {
+        numberBooked.push(booking.roomNumber)
+      }
+      return numberBooked
+    }, [])
+    if(!numberOfRoomsBooked.includes(room.number)) {
+      acc.push(room)
+    }
+    return acc
+  }, []).filter(room => {
+    if(roomTypeChoices.value === room.roomType) {
+      return room
+    }
+    else {
+      return room
+    }
+  })
+  return filteredSearch
+}
+
+const searchResultsSection = document.querySelector('#search-results')
+searchButton.addEventListener('click', showAvailableRooms)
+function showAvailableRooms() {
+  hide([bookingSection])
+  show([homeButton, searchResultsSection])
+  searchResultsSection.innerHTML = ''
+  filteredSearch.forEach(element => {
+    searchResultsSection.innerHTML += `
+    <figure class ='searchResults' id='${element.number}' tabindex='0'>
+      <img src='#' alt='hotel room'>
+      <p>Room Number: ${element.number}</p>
+      <p>Room Type: ${element.roomType}</p>
+      <p>Room Cost: ${element.costPerNight}</p>
+      <button type="button" id="${element.number}">Book Room</button>
+    </figure>
+    `
+  })
+}
+
+function resetFilters() {
+  roomTypeChoices.value = 'Choose Room Type...'
+  checkInDate.value = ''
+}
+
+let postData;
+searchResultsSection.addEventListener('click', bookIt)
+function bookIt(e) {
+  if(e.target.closest('button')) {
+    postData = {"userID": customer.id, "date": chosenDate, "roomNumber": Number(e.target.id) }
+    console.log('postData', postData)
+    bookARoom(postData)
+  }
+  if(e.target.id.includes(postData.roomNumber.toString())) {
+    e.target.parentElement.remove();
+    filteredSearch.splice(['postData.roomNumber'], 1)
+
+  }
+}
+
+function bookARoom(postData) {
+  return fetch(bookingsURL, {
+      method: 'POST',
+      body: JSON.stringify(postData),
+      headers: { 'Content-Type': 'application/json' }
+  })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`Sorry, something went wrong. ${response.status}: ${response.statusText}`)
+          }
+          return response.json()
+      })
+      .then(test =>
+          getData(bookingsURL))
+      .then(data => {
+        updateBookings()
+        displayUpcomingBookings()
+        displayDollarsSpent()
+      })
+      .catch(err => {
+          console.log('Fetch Error: ', err)
+          errorMessage.innerHTML = `Oops, something went wrong. Try again later.`
+      })
+}
+
+function updateBookings() {
+  newBooking = {id: Date.now().toString(), userID: postData.userID, date: postData.date, roomNumber: postData.roomNumber}
+  customer.upcomingBookings.push(newBooking)
 }

@@ -39,13 +39,13 @@
       <form class="dates flex">
         <label for="start">Checkin:</label>
         <input type="date" id="startDate" class="clickable" name="trip-start" value="" min="2022-11-15" max="2023-11-15" >
-        <select class="clickable">
-          <option value="chooseRoomType"class="clickable">Choose Room Type...</option>
+        <select class="clickable roomOptions" Choose Room Type>
+          <option value="Choose Room Type..."class="clickable">Choose Room Type...</option>
           <option value="all" class="clickable">all</option>
-          <option value="residentialSuite" class="clickable">residential suite</option>
+          <option value="residential suite" class="clickable">residential suite</option>
           <option value="suite" class="clickable">suite</option>
-          <option value="juniorSuite" class="clickable">junior suite</option>
-          <option value="singleRoom" class="clickable">single room</option>
+          <option value="junior suite" class="clickable">junior suite</option>
+          <option value="single room" class="clickable">single room</option>
         </select>
       </form>
         <section class="flex search">
@@ -54,6 +54,9 @@
     </section>
     <section class="previousBookings flex" id="previous-bookings">
       <h2>Previous Bookings</h2>
+    </section>
+    <section class="searchResults" id="search-results">
+      
     </section>
     <section class="login" id="logout"></section>
   </main>
