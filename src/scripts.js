@@ -28,6 +28,7 @@ let comparedDates;
 let chosenDate;
 let filteredSearch;
 let newBooking;
+let postData;
 let room;
 let accounts
 let booking;
@@ -44,11 +45,16 @@ const upcomingSection = document.querySelector('#upcoming-bookings');
 const bookingSection = document.querySelector('#booking-section');
 const title = document.querySelector('#title');
 const searchButton = document.querySelector('#search-button');
-
+const checkInDate = document.querySelector('#startDate');
+let roomTypeChoices = document.querySelector('.roomOptions');
+const searchResultsSection = document.querySelector('#search-results');
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 bookingHistoryButton.addEventListener('click', displayBookingHistory);
 homeButton.addEventListener('click', goHome);
+checkInDate.addEventListener('change', checkDateAvailability);
+roomTypeChoices.addEventListener('change', filterByRoomType);
+searchButton.addEventListener('click', showAvailableRooms);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -153,20 +159,14 @@ function show(elementList) {
   })
 }
 
-const checkInDate = document.querySelector('#startDate')
-checkInDate.addEventListener('change', checkDateAvailability)
 function checkDateAvailability() {
   chosenDate = checkInDate.value.split('-').join('/')
   comparedDates = accounts.bookings.filter(booking => {
     return booking.date !== chosenDate
   })
-  console.log(comparedDates)
   return comparedDates
 }
 
-
-let roomTypeChoices = document.querySelector('.roomOptions')
-roomTypeChoices.addEventListener('change', filterByRoomType)
 function filterByRoomType() {
   filteredSearch = accounts.rooms.reduce((acc, room) => {
     const numberOfRoomsBooked = accounts.bookings.reduce((numberBooked, booking) => {
@@ -190,13 +190,10 @@ function filterByRoomType() {
   return filteredSearch
 }
 
-const searchResultsSection = document.querySelector('#search-results')
-searchButton.addEventListener('click', showAvailableRooms)
 function showAvailableRooms() {
   hide([bookingSection])
   show([homeButton, searchResultsSection])
   searchResultsSection.innerHTML = ''
-  informUser()
   if(filteredSearch.length === 0) {
     searchResultsSection.innerHTML = `${customer.name}, no rooms available for either room type or date. Adjust your search`
     setTimeout( () => {
@@ -220,27 +217,33 @@ function showAvailableRooms() {
   }
 }
 
-function informUser() {
-  if(roomTypeChoices.value === 'Choose Room Type...' || checkInDate.value === '') {
-      searchResultsSection.innerHTML = `${customer.name}, choose a date and a room type`
-      setTimeout( () => {
-        hide([searchResultsSection])
-        show([bookingSection])
-      }, 2000)
-  }
-}
+// searchButton.addEventListener('input', () => {
+//   if(roomTypeChoices.value !== 'Choose Room Type...' || checkInDate.value !== '') {
+//     searchButton.disabled = false
+// }
+// else {searchButton.disabled = true}
+// })
+// function informUser() {
+//   if(roomTypeChoices.value !== 'Choose Room Type...' || checkInDate.value !== '') {
+//       // searchResultsSection.innerHTML = `${customer.name}, choose a date and a room type`
+//       searchButton.disabled = false
+//       // setTimeout( () => {
+//       //   hide([searchResultsSection])
+//       //   show([bookingSection])
+//       // }, 2000)
+//   }
+//   else {searchButton.disabled = true}
+// }
 
 function resetFilters() {
   roomTypeChoices.value = 'Choose Room Type...'
   checkInDate.value = ''
 }
 
-let postData;
 searchResultsSection.addEventListener('click', bookIt)
 function bookIt(e) {
   if(e.target.closest('button')) {
     postData = {"userID": customer.id, "date": chosenDate, "roomNumber": Number(e.target.id) }
-    console.log('postData', postData)
     bookARoom(postData)
   }
   if(e.target.id.includes(postData.roomNumber.toString())) {
