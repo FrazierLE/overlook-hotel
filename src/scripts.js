@@ -27,6 +27,7 @@ let randomCustomer;
 let comparedDates;
 let chosenDate;
 let filteredSearch;
+let newBooking;
 let room;
 let accounts
 let booking;
@@ -57,7 +58,7 @@ function fetchData(urls) {
           apiBookings = data[2]
           customers = new Customers(apiCustomers.customers)
           // room = new Room(apiRooms.rooms)
-          // booking = new Booking(apiBookings.bookings)
+          booking = new Booking(apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
           randomizeCustomer(customers.customers)
           displayHomePage(accounts.rooms, accounts.bookings)
@@ -78,6 +79,11 @@ function displayHomePage(rooms, bookings) {
   hide([homeButton, previousBookingSection, searchResultsSection])
   show([bookingSection, bookingHistoryButton])
   activateCustomerMethods(accounts.rooms, accounts.bookings)
+  displayUpcomingBookings()
+  displayDollarsSpent()
+}
+
+function displayUpcomingBookings() {
   upcomingSection.innerHTML = ''
   upcomingSection.innerHTML = `<h2>Upcoming Bookings</h2>`
   customer.upcomingBookings.forEach(element => {
@@ -89,6 +95,9 @@ function displayHomePage(rooms, bookings) {
     </figure>
     `
   })
+}
+
+function displayDollarsSpent() {
   dollarsSpentSection.innerHTML = ''
   dollarsSpentSection.innerHTML = `<h2>Total Amount Spent</h2>`
   dollarsSpentSection.innerHTML += `<h2 class="totalDollars">$${customer.totalDollarsSpent}</h2>`
@@ -110,7 +119,6 @@ function activateCustomerMethods(rooms, bookings) {
 function displayBookingHistory() {
   show([homeButton, previousBookingSection])
   hide([bookingHistoryButton, bookingSection, searchResultsSection])
-  activateCustomerMethods(accounts.rooms, accounts.bookings)
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
   customer.previousBookings.forEach(element => {
@@ -181,7 +189,7 @@ function showAvailableRooms() {
   searchResultsSection.innerHTML = ''
   filteredSearch.forEach(element => {
     searchResultsSection.innerHTML += `
-    <figure class ='searchResults' id='${element.id}' tabindex='0'>
+    <figure class ='searchResults' id='${element.number}' tabindex='0'>
       <img src='#' alt='hotel room'>
       <p>Room Number: ${element.number}</p>
       <p>Room Type: ${element.roomType}</p>
@@ -198,13 +206,19 @@ function resetFilters() {
 }
 
 let postData;
-searchResultsSection.addEventListener('click', (e) => {
+searchResultsSection.addEventListener('click', bookIt)
+function bookIt(e) {
   if(e.target.closest('button')) {
     postData = {"userID": customer.id, "date": chosenDate, "roomNumber": Number(e.target.id) }
     console.log('postData', postData)
     bookARoom(postData)
   }
-})
+  if(e.target.id.includes(postData.roomNumber.toString())) {
+    e.target.parentElement.remove();
+    filteredSearch.splice(['postData.roomNumber'], 1)
+
+  }
+}
 
 function bookARoom(postData) {
   return fetch(bookingsURL, {
@@ -221,8 +235,9 @@ function bookARoom(postData) {
       .then(test =>
           getData(bookingsURL))
       .then(data => {
-        console.log('data', data)
-        updateBookings(data.bookings)
+        updateBookings()
+        displayUpcomingBookings()
+        displayDollarsSpent()
       })
       .catch(err => {
           console.log('Fetch Error: ', err)
@@ -230,9 +245,7 @@ function bookARoom(postData) {
       })
 }
 
-function updateBookings(data) {
-  const updatedBookings = data.find(user => {
-    return user.id === user.userID
-  })
-  customer.allBookings.push(updatedBookings)
+function updateBookings() {
+  newBooking = {id: Date.now().toString(), userID: postData.userID, date: postData.date, roomNumber: postData.roomNumber}
+  customer.upcomingBookings.push(newBooking)
 }
