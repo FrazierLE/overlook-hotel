@@ -60,6 +60,7 @@ checkInDate.addEventListener('change', checkDateAvailability);
 roomTypeChoices.addEventListener('change', filterByRoomType);
 searchButton.addEventListener('click', showAvailableRooms);
 searchResultsSection.addEventListener('click', bookIt);
+loginButton.addEventListener('click', findCustomerInfo);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -77,6 +78,27 @@ function fetchData(urls) {
           console.log('Fetch Error: ', err)
       })
 }
+
+let findUser;
+let findCustomer;
+function findCustomerInfo() {
+  findUser = usernameInput.value.split('username').join('')
+  findCustomer = customers.customers.find(element => element.id === Number(findUser))
+  // customer = new singleCustomer(findCustomer)
+}
+
+loginInputs.forEach(input => {
+  input.addEventListener('input', () => {
+    if(usernameInput.value !== '' && passwordInput.value !== '') {
+      loginButton.disabled = false
+      loginButton.style.cursor = "pointer";
+  }
+  else {
+    loginButton.disabled = true
+    }
+  })
+})
+
 
 function randomizeCustomer(data) {
   randomCustomer = data[Math.floor(Math.random() * data.length)]
@@ -297,9 +319,3 @@ inputs.forEach(input => {
     }
   })
 })
-
-loginButton.addEventListener('click', findCustomerInfo)
-function findCustomerInfo() {
-  const findUser = usernameInput.value.split('username').join('')
-  const findCustomer = customers.customers.find(element => element.id === Number(findUser))
-}
