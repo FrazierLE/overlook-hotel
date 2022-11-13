@@ -129,6 +129,14 @@ loginInputs.forEach(input => {
   })
 })
 
+logoutButton.addEventListener('click', logout)
+function logout() {
+  show([loginPage])
+  hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton])
+  resetLogin()
+  title.innerText = `Welcome to the Overlook Hotel`
+}
+
 function displayHomePage() {
   hide([homeButton, previousBookingSection, searchResultsSection, loginPage])
   show([bookingSection, bookingHistoryButton])
