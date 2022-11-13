@@ -34,6 +34,8 @@ let booking;
 let apiCustomers
 let apiRooms;
 let apiBookings;
+let findUser;
+let findCustomer;
 
 const homeButton = document.querySelector('#home-button');
 const bookingHistoryButton = document.querySelector('#previous-button');
@@ -73,30 +75,29 @@ function fetchData(urls) {
           customers = new Customers(apiCustomers.customers)
           booking = new Booking (apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
-          randomizeCustomer(customers.customers)
-          displayHomePage(accounts.rooms, accounts.bookings)
+          show([loginPage])
+          hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton])
+
       })
       .catch(err => {
           console.log('Fetch Error: ', err)
       })
 }
 
-let findUser;
-let findCustomer;
 function findCustomerInfo() {
+  console.log(customers)
   findUser = Number(usernameInput.value.split('username').join(''))
   findCustomer = customers.customers.find(element => element.id === findUser)
-  // customer = new singleCustomer(findCustomer)
+  customer = new singleCustomer(findCustomer)
   checkLogin()
 }
 
 function checkLogin() {
   if(inRange(findUser) && passwordInput.value === 'overlook2021') {
-    console.log('true')
+    displayHomePage(accounts.rooms, accounts.bookings)
+    hide([loginPage])
+    show([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection])
   }
-  // else if(inRange(findUser)) {
-  //   console.log('true')
-  // }
   else {
     show([loginMessage])
     resetLogin()
@@ -117,12 +118,6 @@ function resetLogin() {
   loginButton.style.cursor = "not-allowed";
 }
 
-function randomizeCustomer(data) {
-  randomCustomer = data[Math.floor(Math.random() * data.length)]
-  customer = new singleCustomer(randomCustomer)
-  return customer
-}
-
 loginInputs.forEach(input => {
   input.addEventListener('input', () => {
     if(usernameInput.value !== '' && passwordInput.value !== '') {
@@ -136,7 +131,7 @@ loginInputs.forEach(input => {
 })
 
 function displayHomePage(rooms, bookings) {
-  hide([homeButton, previousBookingSection, searchResultsSection])
+  hide([homeButton, previousBookingSection, searchResultsSection, loginPage])
   show([bookingSection, bookingHistoryButton])
   activateCustomerMethods(accounts.rooms, accounts.bookings)
   displayUpcomingBookings()
