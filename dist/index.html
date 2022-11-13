@@ -64,10 +64,11 @@
     <section class="login" id="login">
       <form class="login-form">
         <label for="username">Username: </label>
-        <input type="text" name="username" id="username">
+        <input type="text" name="username" id="username" value="">
         <label for="password">Password: </label>
-        <input type="text" name="password" id="password">
+        <input type="text" name="password" id="password" value="">
         <button type="button" id="login-button" class="buttons loginButton" disabled>Login</button>
+        <p id="login-error-message" class="hidden">Invalid password or username</p>
         <!-- <button type="button" id="login-button" class="buttons">Login</button> -->
       </form>
     </section>
