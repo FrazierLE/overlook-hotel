@@ -76,7 +76,7 @@ function fetchData(urls) {
           booking = new Booking (apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
           show([loginPage])
-          hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton])
+          hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
 
       })
       .catch(err => {
@@ -95,7 +95,7 @@ function checkLogin() {
   if(inRange(findUser) && passwordInput.value === 'overlook2021') {
     displayHomePage()
     hide([loginPage])
-    show([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection])
+    show([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, logoutButton])
   }
   else {
     show([loginMessage])
