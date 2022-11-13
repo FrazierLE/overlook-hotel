@@ -292,8 +292,6 @@ inputs.forEach(input => {
 
 loginButton.addEventListener('click', findCustomerInfo)
 function findCustomerInfo() {
-  console.log('USERMANE', typeof usernameInput.value)
-  console.log('PASSWORD', passwordInput.value)
-  const findCustomer = customers.customers.find(element => element.id === Number(usernameInput.value))
-  console.log('FIND TRUDY', findCustomer)
+  const findUser = usernameInput.value.split('username').join('')
+  const findCustomer = customers.customers.find(element => element.id === Number(findUser))
 }
