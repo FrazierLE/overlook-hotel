@@ -85,7 +85,6 @@ function fetchData(urls) {
 }
 
 function findCustomerInfo() {
-  console.log(customers)
   findUser = Number(usernameInput.value.split('username').join(''))
   findCustomer = customers.customers.find(element => element.id === findUser)
   customer = new singleCustomer(findCustomer)
@@ -94,7 +93,7 @@ function findCustomerInfo() {
 
 function checkLogin() {
   if(inRange(findUser) && passwordInput.value === 'overlook2021') {
-    displayHomePage(accounts.rooms, accounts.bookings)
+    displayHomePage()
     hide([loginPage])
     show([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection])
   }
@@ -130,7 +129,7 @@ loginInputs.forEach(input => {
   })
 })
 
-function displayHomePage(rooms, bookings) {
+function displayHomePage() {
   hide([homeButton, previousBookingSection, searchResultsSection, loginPage])
   show([bookingSection, bookingHistoryButton])
   activateCustomerMethods(accounts.rooms, accounts.bookings)
