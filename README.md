@@ -4,6 +4,14 @@
 Overlook Hotel is an interactive, web-based application that allows users to log into their account and book a hotel room. Using HTML, CSS, JavaScript, and APIs, we built our app to allow users to view their upcoming bookings, previous bookings, and the total amount of dollars spent on previous bookings. Users are also able to select a date, filter the room type, and check the availability of rooms before booking one. 
 
 ### Preview of Application
+#### Login Page
+<img width="1440" alt="Screen Shot 2022-11-14 at 3 23 33 PM" src="https://user-images.githubusercontent.com/108101979/201780885-5c03e772-096c-48f6-8ff5-073a2517a6cd.png">
+
+#### User Dashboard
+<img width="1419" alt="Screen Shot 2022-11-14 at 3 23 49 PM" src="https://user-images.githubusercontent.com/108101979/201780899-59960507-2066-4cd6-814b-eef9fcf64f3f.png">
+
+#### Previous Bookings
+<img width="1401" alt="Screen Shot 2022-11-14 at 3 24 24 PM" src="https://user-images.githubusercontent.com/108101979/201780934-249c0729-bfe5-488b-b388-31b2263b43b4.png">
 
 
 ## Installation Instructions
