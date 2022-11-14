@@ -94,15 +94,18 @@ function findCustomerInfo() {
 }
 
 function checkUsername() {
-  if(!inRange(findUser) && usernameInput.value !== 'username' + findUser.toString()) {
-    correctUsername = false;
-  }
+  if(inRange(findUser) && usernameInput.value === 'username' + findUser.toString()) {
+    console.log('USERNAME', usernameInput.value)
+    correctUsername = true;
+  } 
+  else {correctUsername = false;}
 }
 
 function checkPassword() {
   if(passwordInput.value === 'overlook2021') {
     correctPassword = true;
   }
+  else {correctPassword = false}
 }
 
 function checkLogin() {
@@ -186,7 +189,7 @@ function displayUpcomingBookings() {
   else {
     customer.upcomingBookings.forEach(element => {
       upcomingSection.innerHTML += `
-      <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
+      <figure class ='upcomingRooms' id='${element.id}'>
       <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
       <p class="roomNumber">Room Number: ${element.roomNumber}</p>
       <p class="checkIn">Checkin Date: ${element.date}</p>
@@ -225,7 +228,7 @@ function displayBookingHistory() {
   else {
     customer.previousBookings.forEach(element => {
       previousBookingSection.innerHTML += `
-      <figure class ='previousRooms' id='${element.id}' tabindex='0'>
+      <figure class ='previousRooms' id='${element.id}'>
       <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
       <p class="roomNumber">Room Number: ${element.roomNumber}</p>
       <p class="checkIn">Checkin Date: ${element.date}</p>
@@ -293,7 +296,7 @@ function showAvailableRooms() {
   else {
     filteredSearch.forEach(element => {
       searchResultsSection.innerHTML += `
-      <figure class ='searchResults' id='${element.number}' tabindex='0'>
+      <figure class ='searchResults' id='${element.number}'>
         <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
         <p class="roomNumber">Room Number: ${element.number}</p>
         <p class="roomType">Room Type: ${element.roomType}</p>
