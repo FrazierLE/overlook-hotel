@@ -36,6 +36,8 @@ let apiRooms;
 let apiBookings;
 let findUser;
 let findCustomer;
+let correctUsername = true;
+let correctPassword = false;
 
 const homeButton = document.querySelector('#home-button');
 const bookingHistoryButton = document.querySelector('#previous-button');
@@ -91,8 +93,22 @@ function findCustomerInfo() {
   checkLogin()
 }
 
+function checkUsername() {
+  if(!inRange(findUser) && usernameInput.value !== 'username' + findUser.toString()) {
+    correctUsername = false;
+  }
+}
+
+function checkPassword() {
+  if(passwordInput.value === 'overlook2021') {
+    correctPassword = true;
+  }
+}
+
 function checkLogin() {
-  if(inRange(findUser) && passwordInput.value === 'overlook2021' && usernameInput.value === 'username' + findUser.toString()) {
+  checkUsername()
+  checkPassword()
+  if(correctPassword && correctUsername) {
     displayHomePage()
     hide([loginPage])
     show([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, logoutButton])
@@ -127,6 +143,21 @@ loginInputs.forEach(input => {
     loginButton.disabled = true
     }
   })
+})
+
+passwordInput.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+      event.preventDefault()
+      findCustomerInfo()
+      checkLogin()
+  }
+})
+usernameInput.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+      event.preventDefault()
+      findCustomerInfo()
+      checkLogin()
+  }
 })
 
 logoutButton.addEventListener('click', logout)
