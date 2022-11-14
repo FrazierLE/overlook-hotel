@@ -88,17 +88,27 @@ function fetchData(urls) {
 
 function findCustomerInfo() {
   findUser = Number(usernameInput.value.split('username').join(''))
-  findCustomer = customers.customers.find(element => element.id === findUser)
-  customer = new singleCustomer(findCustomer)
-  checkLogin()
+  if(!inRange(findUser)) {
+    show([loginMessage])
+    resetLogin()
+    setTimeout(() => {
+      hide([loginMessage])
+    }, 2000)
+  }
+  else {
+    checkUsername()
+    checkPassword()
+    findCustomer = customers.customers.find(element => element.id === findUser)
+    customer = new singleCustomer(findCustomer)
+    checkLogin()
+  }
 }
 
 function checkUsername() {
   if(inRange(findUser) && usernameInput.value === 'username' + findUser.toString()) {
-    console.log('USERNAME', usernameInput.value)
     correctUsername = true;
   } 
-  else {correctUsername = false;}
+  else if(customer === undefined) {correctUsername = false;}
 }
 
 function checkPassword() {
@@ -109,8 +119,6 @@ function checkPassword() {
 }
 
 function checkLogin() {
-  checkUsername()
-  checkPassword()
   if(correctPassword && correctUsername) {
     displayHomePage()
     hide([loginPage])
