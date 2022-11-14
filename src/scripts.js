@@ -357,7 +357,7 @@ function bookARoom(postData) {
       })
       .catch(err => {
           console.log('Fetch Error: ', err)
-          errorMessage.innerHTML = `Oops, something went wrong. Try again later.`
+          searchResultsSection.innerHTML = `Oops, something went wrong. Try again later.`
       })
 }
 
