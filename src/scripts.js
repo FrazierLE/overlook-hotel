@@ -132,7 +132,7 @@ loginInputs.forEach(input => {
 logoutButton.addEventListener('click', logout)
 function logout() {
   show([loginPage])
-  hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton])
+  hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
   resetLogin()
   title.innerText = `Welcome to the Overlook Hotel`
 }
