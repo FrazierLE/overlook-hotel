@@ -92,7 +92,7 @@ function findCustomerInfo() {
 }
 
 function checkLogin() {
-  if(inRange(findUser) && passwordInput.value === 'overlook2021') {
+  if(inRange(findUser) && passwordInput.value === 'overlook2021' && usernameInput.value === 'username' + findUser.toString()) {
     displayHomePage()
     hide([loginPage])
     show([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, logoutButton])
