@@ -34,6 +34,8 @@ let booking;
 let apiCustomers
 let apiRooms;
 let apiBookings;
+let findUser;
+let findCustomer;
 
 const homeButton = document.querySelector('#home-button');
 const bookingHistoryButton = document.querySelector('#previous-button');
@@ -48,6 +50,12 @@ const checkInDate = document.querySelector('#startDate');
 let roomTypeChoices = document.querySelector('.roomOptions');
 const searchResultsSection = document.querySelector('#search-results');
 const inputs = [roomTypeChoices, checkInDate];
+const loginPage = document.querySelector('#login');
+const usernameInput = document.querySelector('#username');
+const passwordInput = document.querySelector('#password');
+const loginButton = document.querySelector('#login-button');
+const loginInputs = [usernameInput, passwordInput];
+const loginMessage = document.querySelector('#login-error-message')
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 bookingHistoryButton.addEventListener('click', displayBookingHistory);
@@ -56,6 +64,7 @@ checkInDate.addEventListener('change', checkDateAvailability);
 roomTypeChoices.addEventListener('change', filterByRoomType);
 searchButton.addEventListener('click', showAvailableRooms);
 searchResultsSection.addEventListener('click', bookIt);
+loginButton.addEventListener('click', findCustomerInfo);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -66,23 +75,70 @@ function fetchData(urls) {
           customers = new Customers(apiCustomers.customers)
           booking = new Booking (apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
-          randomizeCustomer(customers.customers)
-          displayHomePage(accounts.rooms, accounts.bookings)
+          show([loginPage])
+          hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
+
       })
       .catch(err => {
           console.log('Fetch Error: ', err)
       })
 }
 
-function randomizeCustomer(data) {
-  randomCustomer = data[Math.floor(Math.random() * data.length)]
-  customer = new singleCustomer(randomCustomer)
-  return customer
+function findCustomerInfo() {
+  findUser = Number(usernameInput.value.split('username').join(''))
+  findCustomer = customers.customers.find(element => element.id === findUser)
+  customer = new singleCustomer(findCustomer)
+  checkLogin()
 }
 
+function checkLogin() {
+  if(inRange(findUser) && passwordInput.value === 'overlook2021') {
+    displayHomePage()
+    hide([loginPage])
+    show([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, logoutButton])
+  }
+  else {
+    show([loginMessage])
+    resetLogin()
+    setTimeout(() => {
+      hide([loginMessage])
+    }, 2000)
+  }
+}
 
-function displayHomePage(rooms, bookings) {
-  hide([homeButton, previousBookingSection, searchResultsSection])
+function inRange(x) {
+  return ((x-1)*(x-50) <= 0);
+}
+
+function resetLogin() {
+  passwordInput.value = ''
+  usernameInput.value = ''
+  loginButton.disabled = true
+  loginButton.style.cursor = "not-allowed";
+}
+
+loginInputs.forEach(input => {
+  input.addEventListener('input', () => {
+    if(usernameInput.value !== '' && passwordInput.value !== '') {
+      loginButton.disabled = false
+      loginButton.style.cursor = "pointer";
+  }
+  else {
+    loginButton.disabled = true
+    }
+  })
+})
+
+logoutButton.addEventListener('click', logout)
+function logout() {
+  show([loginPage])
+  hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton])
+  resetLogin()
+  title.innerText = `Welcome to the Overlook Hotel`
+}
+
+function displayHomePage() {
+  hide([homeButton, previousBookingSection, searchResultsSection, loginPage])
   show([bookingSection, bookingHistoryButton])
   activateCustomerMethods(accounts.rooms, accounts.bookings)
   displayUpcomingBookings()
