@@ -46,6 +46,8 @@ h1 {
   flex-direction: column;
   height: max-content;
   width: 25vw;
+  border-right: 3px solid black;
+  padding-right: 25px;
 }
 
 .moneySection {
@@ -117,9 +119,10 @@ h1 {
 .searchResults {
   display: flex;
   flex-wrap: wrap;
-  height: 70vh;
-  flex-direction: column;
   font-size: 2rem;
+  width: 21vw;
+  justify-content: center;
+  margin-left: 135px;
 }
 
 .clickable {
