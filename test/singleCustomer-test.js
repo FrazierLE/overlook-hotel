@@ -39,9 +39,11 @@ describe('Single Customer', () => {
   })
  it('should hold the current date', () => {
     expect(customer1.date).to.equal(currentDate)
+    expect(customer2.date).to.equal(currentDate)
   })
   it('should have a record of all bookings', () => {
     expect(customer1.allBookings).to.equal(undefined)
+    expect(customer2.allBookings).to.equal(undefined)
   })
   it('should have a record of previous bookings', () => {
     expect(customer1.previousBookings).to.deep.equal([])
@@ -53,9 +55,6 @@ describe('Single Customer', () => {
   })
   it('should keep track of total dollars spent at hotel', () => {
     expect(customer1.totalDollarsSpent).to.equal(undefined)
-  })
-  it('should show which rooms are available to book', () => {
-    expect(customer2.roomsAvailableToBook).to.deep.equal(undefined)
   })
   it('should set current date based on the current day', () => {
     expect(customer1.setCurrentDate()).to.equal(currentDate)
