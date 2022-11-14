@@ -232,9 +232,16 @@ function bookIt(e) {
   }
   if(e.target.id.includes(postData.roomNumber.toString())) {
     e.target.parentElement.remove();
-    filteredSearch.splice(['postData.roomNumber'], 1)
     confirmBooking()
+    removeRoom()
   }
+}
+
+function removeRoom() {
+  const filtered = filteredSearch.find(element => element.number === postData.roomNumber) 
+    const index = filteredSearch.indexOf(filtered)
+    filteredSearch.splice([index], 1)
+    return filteredSearch
 }
 
 function confirmBooking() {
@@ -272,6 +279,7 @@ function bookARoom(postData) {
 function updateBookings() {
   newBooking = {id: Date.now().toString(), userID: postData.userID, date: postData.date, roomNumber: postData.roomNumber}
   customer.upcomingBookings.push(newBooking)
+  accounts.bookings.push(newBooking)
 }
 
 inputs.forEach(input => {
@@ -285,4 +293,3 @@ inputs.forEach(input => {
     }
   })
 })
-
