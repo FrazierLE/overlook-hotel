@@ -7,7 +7,6 @@ class singleCustomer {
     this.upcomingBookings = [];
     this.date = this.setCurrentDate()
     this.totalDollarsSpent;
-    this.roomsAvailableToBook;
   }
   setCurrentDate() {
     const date = new Date()
@@ -40,18 +39,6 @@ class singleCustomer {
   }, 0)
   this.totalDollarsSpent = Number(total.toFixed(2))
  } 
- determineAvailableRooms(roomInfo) {
-  const availableRooms = this.allBookings.reduce((acc, roomValue) => {
-    const filteredList = roomInfo.filter(element => {
-      if(roomValue.roomNumber !== element.number) {
-        return element
-      }
-    })
-   acc = filteredList
-    return acc
-  }, 0)
-  this.roomsAvailableToBook = availableRooms
- }
 }
 
 export default singleCustomer;

@@ -84,9 +84,4 @@ describe('Single Customer', () => {
     customer2.calculateTotal(sampleRooms)
     expect(customer2.totalDollarsSpent).to.equal(0.00)
   })
-  it('should show lists of available rooms', () => {
-    customer1.filterBookings(sampleBookings)
-    customer1.determineAvailableRooms(sampleRooms, sampleBookings)
-    expect(customer1.roomsAvailableToBook).to.deep.equal([sampleRooms[0], sampleRooms[1], sampleRooms[2], sampleRooms[3], sampleRooms[4]])
-  })
 })
