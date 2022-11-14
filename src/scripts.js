@@ -298,8 +298,9 @@ function showAvailableRooms() {
       searchResultsSection.innerHTML += `
       <figure class ='searchResults' id='${element.number}'>
         <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
-        <p class="roomNumber">Room Number: ${element.number}</p>
         <p class="roomType">Room Type: ${element.roomType}</p>
+        <p class="bedsize">Bed: ${element.bedSize}</p>
+        <p class="numBeds">Number of Beds: ${element.numBeds}</p>
         <p class="roomCost">Room Cost: $${element.costPerNight}</p>
         <button class="bookButton"type="button" id="${element.number}">Book Room</button>
       </figure>
