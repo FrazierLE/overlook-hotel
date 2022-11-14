@@ -271,13 +271,7 @@ function filterByRoomType() {
     }
     return acc
   }, []).filter(room => {
-    if(roomTypeChoices.value === room.roomType) {
-      return room
-    }
-    else {
-      return room
-    }
-  })
+    return roomTypeChoices.value === room.roomType})
   return filteredSearch
 }
 
