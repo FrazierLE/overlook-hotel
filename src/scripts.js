@@ -105,10 +105,11 @@ function findCustomerInfo() {
 }
 
 function checkUsername() {
-  if(inRange(findUser) && usernameInput.value === 'username' + findUser.toString()) {
+  if(inRange(findUser) && usernameInput.value.includes('username')) {
     correctUsername = true;
   } 
   else if(customer === undefined) {correctUsername = false;}
+  else if(!usernameInput.value.includes('username')) {correctUsername = false}
 }
 
 function checkPassword() {
