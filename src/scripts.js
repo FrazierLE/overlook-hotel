@@ -36,6 +36,8 @@ let apiRooms;
 let apiBookings;
 let findUser;
 let findCustomer;
+let correctUsername = true;
+let correctPassword = false;
 
 const homeButton = document.querySelector('#home-button');
 const bookingHistoryButton = document.querySelector('#previous-button');
@@ -86,13 +88,38 @@ function fetchData(urls) {
 
 function findCustomerInfo() {
   findUser = Number(usernameInput.value.split('username').join(''))
-  findCustomer = customers.customers.find(element => element.id === findUser)
-  customer = new singleCustomer(findCustomer)
-  checkLogin()
+  if(!inRange(findUser)) {
+    show([loginMessage])
+    resetLogin()
+    setTimeout(() => {
+      hide([loginMessage])
+    }, 2000)
+  }
+  else {
+    checkUsername()
+    checkPassword()
+    findCustomer = customers.customers.find(element => element.id === findUser)
+    customer = new singleCustomer(findCustomer)
+    checkLogin()
+  }
+}
+
+function checkUsername() {
+  if(inRange(findUser) && usernameInput.value === 'username' + findUser.toString()) {
+    correctUsername = true;
+  } 
+  else if(customer === undefined) {correctUsername = false;}
+}
+
+function checkPassword() {
+  if(passwordInput.value === 'overlook2021') {
+    correctPassword = true;
+  }
+  else {correctPassword = false}
 }
 
 function checkLogin() {
-  if(inRange(findUser) && passwordInput.value === 'overlook2021') {
+  if(correctPassword && correctUsername) {
     displayHomePage()
     hide([loginPage])
     show([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, logoutButton])
@@ -129,10 +156,25 @@ loginInputs.forEach(input => {
   })
 })
 
+passwordInput.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+      event.preventDefault()
+      findCustomerInfo()
+      checkLogin()
+  }
+})
+usernameInput.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+      event.preventDefault()
+      findCustomerInfo()
+      checkLogin()
+  }
+})
+
 logoutButton.addEventListener('click', logout)
 function logout() {
   show([loginPage])
-  hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton])
+  hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
   resetLogin()
   title.innerText = `Welcome to the Overlook Hotel`
 }
@@ -155,7 +197,7 @@ function displayUpcomingBookings() {
   else {
     customer.upcomingBookings.forEach(element => {
       upcomingSection.innerHTML += `
-      <figure class ='upcomingRooms' id='${element.id}' tabindex='0'>
+      <figure class ='upcomingRooms' id='${element.id}'>
       <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
       <p class="roomNumber">Room Number: ${element.roomNumber}</p>
       <p class="checkIn">Checkin Date: ${element.date}</p>
@@ -194,7 +236,7 @@ function displayBookingHistory() {
   else {
     customer.previousBookings.forEach(element => {
       previousBookingSection.innerHTML += `
-      <figure class ='previousRooms' id='${element.id}' tabindex='0'>
+      <figure class ='previousRooms' id='${element.id}'>
       <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
       <p class="roomNumber">Room Number: ${element.roomNumber}</p>
       <p class="checkIn">Checkin Date: ${element.date}</p>
@@ -237,13 +279,7 @@ function filterByRoomType() {
     }
     return acc
   }, []).filter(room => {
-    if(roomTypeChoices.value === room.roomType) {
-      return room
-    }
-    else {
-      return room
-    }
-  })
+    return roomTypeChoices.value === room.roomType})
   return filteredSearch
 }
 
@@ -262,10 +298,11 @@ function showAvailableRooms() {
   else {
     filteredSearch.forEach(element => {
       searchResultsSection.innerHTML += `
-      <figure class ='searchResults' id='${element.number}' tabindex='0'>
+      <figure class ='searchResults' id='${element.number}'>
         <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
-        <p class="roomNumber">Room Number: ${element.number}</p>
         <p class="roomType">Room Type: ${element.roomType}</p>
+        <p class="bedsize">Bed: ${element.bedSize}</p>
+        <p class="numBeds">Number of Beds: ${element.numBeds}</p>
         <p class="roomCost">Room Cost: $${element.costPerNight}</p>
         <button class="bookButton"type="button" id="${element.number}">Book Room</button>
       </figure>
@@ -328,7 +365,7 @@ function bookARoom(postData) {
       })
       .catch(err => {
           console.log('Fetch Error: ', err)
-          errorMessage.innerHTML = `Oops, something went wrong. Try again later.`
+          searchResultsSection.innerHTML = `Oops, something went wrong. Try again later.`
       })
 }
 

@@ -29,6 +29,16 @@
     <nav>
   </header>
   <h1 class="flex" id="title">Welcome to the Overlook Hotel</h1>
+  <section class="login flex" id="login">
+    <form class="login-form flex">
+      <label for="username">Username: </label>
+      <input type="text" name="username" id="username" value="">
+      <label for="password">Password: </label>
+      <input type="text" name="password" id="password" value="">
+      <button type="button" id="login-button" class="buttons loginButton" disabled>Login</button>
+      <p id="login-error-message" class="hidden">Invalid password or username</p>
+    </form>
+  </section>
   <main class="flex home">
     <section class="stageLeft flex">
       <section class="moneySection id='money-section' flex">
@@ -45,7 +55,6 @@
         <label for="room-select">Choose: </label>
         <select id="room-select" class="clickable roomOptions" Choose Room Type>
           <option value="Choose Room Type..."class="clickable">Choose Room Type...</option>
-          <option value="all" class="clickable">all</option>
           <option value="residential suite" class="clickable">residential suite</option>
           <option value="suite" class="clickable">suite</option>
           <option value="junior suite" class="clickable">junior suite</option>
@@ -60,17 +69,6 @@
       <h2>Previous Bookings</h2>
     </section>
     <section class="searchResults" id="search-results">
-    </section>
-    <section class="login" id="login">
-      <form class="login-form">
-        <label for="username">Username: </label>
-        <input type="text" name="username" id="username" value="">
-        <label for="password">Password: </label>
-        <input type="text" name="password" id="password" value="">
-        <button type="button" id="login-button" class="buttons loginButton" disabled>Login</button>
-        <p id="login-error-message" class="hidden">Invalid password or username</p>
-        <!-- <button type="button" id="login-button" class="buttons">Login</button> -->
-      </form>
     </section>
   </main>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->

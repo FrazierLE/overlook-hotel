@@ -45,12 +45,10 @@ h1 {
 .stageLeft {
   flex-direction: column;
   height: max-content;
-  border: 3px solid black;
   width: 25vw;
 }
 
 .moneySection {
-  border: 2px solid green;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
@@ -64,7 +62,6 @@ h1 {
 
 .upcomingBookings, 
 .previousBookings  {
-  border: 2px solid red;
   height: max-content;
   justify-content: center;
   flex-direction: column;
@@ -74,7 +71,7 @@ h1 {
 }
 
 .upcomingRooms {
-  border: 2px solid orange;
+  border: 2px solid black;
   height: 16vh;
   width: 16vw;
   display: flex;
@@ -102,7 +99,6 @@ h1 {
 }
 
 .previousBookings {
-  border: 3px solid blue;
   height: 300vh;
   margin-left: 20px;
   width: 100vw;
@@ -110,10 +106,6 @@ h1 {
   justify-content: flex-start;
   flex-wrap: wrap;
   font-size: 2rem;
-}
-
-.previousRooms {
-  border: 3px solid green;
 }
 
 .search {
@@ -144,7 +136,7 @@ h1 {
 }
 
 .hotelRooms {
-  height: 38%;
+  height: 60%;
 }
 
 .totalDollars {
@@ -160,4 +152,22 @@ h2 {
 p {
   font-size: 1.5rem;
   margin: 2.5px;
+}
+
+.login {
+  flex-direction: row;
+  justify-content: center;
+  height: 25vh;
+}
+
+.login-form {
+  align-items: center;
+  flex-direction: column;
+  border: 3px solid black;
+  justify-content: center;
+}
+
+.loginButton {
+  margin-top: 20px;
+  height: 3vh;
 }

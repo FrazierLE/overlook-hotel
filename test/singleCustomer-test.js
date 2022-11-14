@@ -7,9 +7,18 @@ describe('Single Customer', () => {
   sampleCustomers
   sampleBookings
   sampleRooms
-  let customer1, customer2
+  let customer1, customer2, currentDate
+  function getCurrentDate() {
+    const date = new Date()
+      let day = date.getDate()
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+      currentDate = `${year}-${month}-${day}`
+      return currentDate.split('-').join('/')
+  }
 
   beforeEach(() => {
+    currentDate = getCurrentDate() 
     sampleCustomers
     sampleBookings
     sampleRooms
@@ -29,7 +38,7 @@ describe('Single Customer', () => {
     expect(customer2.name).to.equal("Rocio Schuster")
   })
  it('should hold the current date', () => {
-    expect(customer1.date).to.equal('2022/11/12')
+    expect(customer1.date).to.equal(currentDate)
   })
   it('should have a record of all bookings', () => {
     expect(customer1.allBookings).to.equal(undefined)
@@ -49,7 +58,7 @@ describe('Single Customer', () => {
     expect(customer2.roomsAvailableToBook).to.deep.equal(undefined)
   })
   it('should set current date based on the current day', () => {
-    expect(customer1.setCurrentDate()).to.equal('2022/11/12')
+    expect(customer1.setCurrentDate()).to.equal(currentDate)
   })
   it('should create lists of upcoming and previous bookings', () => {
     customer1.filterBookings(sampleBookings)
