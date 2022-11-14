@@ -99,7 +99,6 @@ h1 {
 }
 
 .previousBookings {
-  border: 3px solid black;
   height: 300vh;
   margin-left: 20px;
   width: 100vw;
@@ -153,4 +152,22 @@ h2 {
 p {
   font-size: 1.5rem;
   margin: 2.5px;
+}
+
+.login {
+  flex-direction: row;
+  justify-content: center;
+  height: 25vh;
+}
+
+.login-form {
+  align-items: center;
+  flex-direction: column;
+  border: 3px solid black;
+  justify-content: center;
+}
+
+.loginButton {
+  margin-top: 20px;
+  height: 3vh;
 }
