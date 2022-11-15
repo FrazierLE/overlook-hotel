@@ -57,6 +57,7 @@ roomTypeChoices.addEventListener('change', filterByRoomType);
 searchButton.addEventListener('click', showAvailableRooms);
 searchResultsSection.addEventListener('click', bookIt);
 loginButton.addEventListener('click', findCustomerInfo);
+logoutButton.addEventListener('click', logout);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -79,11 +80,7 @@ function fetchData(urls) {
 function findCustomerInfo() {
   findUser = Number(usernameInput.value.split('username').join(''))
   if(!inRange(findUser)) {
-    show([loginMessage])
-    resetLogin()
-    setTimeout(() => {
-      hide([loginMessage])
-    }, 2000)
+    checkLogin()
   }
   else {
     checkUsername()
@@ -98,7 +95,6 @@ function checkUsername() {
   if(inRange(findUser) && usernameInput.value.includes('username')) {
     correctUsername = true;
   } 
-  else if(customer === undefined) {correctUsername = false;}
   else if(!usernameInput.value.includes('username')) {correctUsername = false}
 }
 
@@ -162,7 +158,18 @@ usernameInput.addEventListener('keypress', (event) => {
   }
 })
 
-logoutButton.addEventListener('click', logout)
+inputs.forEach(input => {
+  input.addEventListener('input', () => {
+    if(checkInDate.value !== '' && roomTypeChoices.value !== 'Choose Room Type...') {
+      searchButton.disabled = false
+      searchButton.style.cursor = "pointer";
+    }
+    else {
+      searchButton.disabled = true
+    }
+  })
+})
+
 function logout() {
   show([loginPage])
   hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
@@ -223,7 +230,7 @@ function displayBookingHistory() {
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
   if(customer.previousBookings.length === 0) {
-    upcomingSection.innerHTML = `<p class="errorMessage">Sorry ${customer.name}, you have no upcoming bookings.</p>`
+    upcomingSection.innerHTML = `<p class="errorMessage">Sorry ${customer.name}, you have no previous bookings.</p>`
   }
   else {
     customer.previousBookings.forEach(element => {
@@ -367,14 +374,3 @@ function updateBookings() {
   accounts.bookings.push(newBooking)
 }
 
-inputs.forEach(input => {
-  input.addEventListener('input', () => {
-    if(checkInDate.value !== '' && roomTypeChoices.value !== 'Choose Room Type...') {
-      searchButton.disabled = false
-      searchButton.style.cursor = "pointer";
-  }
-  else {
-    searchButton.disabled = true
-    }
-  })
-})
