@@ -1,17 +1,7 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
 
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-// import './images/turing-logo.png'
-import './images/hotel.png'
 import './images/hotel-overlook.png'
 import './images/hotel-room.png'
-
-
-// console.log('This is the JavaScript entry file - your code begins here.');
 import getData from './apiCalls'
 import Customers from './classes/customers'
 import singleCustomer from './classes/singleCustomer';
@@ -23,7 +13,6 @@ const roomsURL = 'http://localhost:3001/api/v1/rooms'
 const bookingsURL = 'http://localhost:3001/api/v1/bookings'
 let customers;
 let customer;
-let randomCustomer;
 let comparedDates;
 let chosenDate;
 let filteredSearch;
@@ -67,6 +56,7 @@ roomTypeChoices.addEventListener('change', filterByRoomType);
 searchButton.addEventListener('click', showAvailableRooms);
 searchResultsSection.addEventListener('click', bookIt);
 loginButton.addEventListener('click', findCustomerInfo);
+logoutButton.addEventListener('click', logout);
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -77,6 +67,7 @@ function fetchData(urls) {
           customers = new Customers(apiCustomers.customers)
           booking = new Booking (apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
+          checkInDate.min = new Date().toLocaleDateString('en-ca')
           show([loginPage])
           hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
 
@@ -87,7 +78,7 @@ function fetchData(urls) {
 }
 
 function findCustomerInfo() {
-  findUser = Number(usernameInput.value.split('username').join(''))
+  findUser = Number(usernameInput.value.split('customer').join(''))
   if(!inRange(findUser)) {
     show([loginMessage])
     resetLogin()
@@ -105,11 +96,10 @@ function findCustomerInfo() {
 }
 
 function checkUsername() {
-  if(inRange(findUser) && usernameInput.value.includes('username')) {
+  if(inRange(findUser) && usernameInput.value.includes('customer')) {
     correctUsername = true;
   } 
-  else if(customer === undefined) {correctUsername = false;}
-  else if(!usernameInput.value.includes('username')) {correctUsername = false}
+  else if(!usernameInput.value.includes('customer')) {correctUsername = false}
 }
 
 function checkPassword() {
@@ -172,11 +162,23 @@ usernameInput.addEventListener('keypress', (event) => {
   }
 })
 
-logoutButton.addEventListener('click', logout)
+inputs.forEach(input => {
+  input.addEventListener('input', () => {
+    if(checkInDate.value === '' || new Date(checkInDate.value).getTime() < new Date(checkInDate.min).getTime()) {
+      searchButton.disabled = true
+    }
+    else if(checkInDate.value !== '' && roomTypeChoices.value !== 'Choose Room Type...') {
+      searchButton.disabled = false
+      searchButton.style.cursor = "pointer";
+    }
+  })
+})
+
 function logout() {
   show([loginPage])
   hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
   resetLogin()
+  resetFilters()
   title.innerText = `Welcome to the Overlook Hotel`
 }
 
@@ -218,6 +220,7 @@ function goHome() {
   hide([homeButton, previousBookingSection, searchResultsSection])
   show([bookingSection, bookingHistoryButton])
   resetFilters()
+  title.innerText = `Welcome to the Overlook Hotel, ${customer.name}`
 }
 
 function activateCustomerMethods(rooms, bookings) {
@@ -232,7 +235,7 @@ function displayBookingHistory() {
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
   if(customer.previousBookings.length === 0) {
-    upcomingSection.innerHTML = `<p class="errorMessage">${customer.name}, you have no upcoming bookings.</p>`
+    upcomingSection.innerHTML = `<p class="errorMessage">Sorry ${customer.name}, you have no previous bookings.</p>`
   }
   else {
     customer.previousBookings.forEach(element => {
@@ -289,12 +292,13 @@ function showAvailableRooms() {
   show([homeButton, searchResultsSection])
   searchResultsSection.innerHTML = ''
   if(filteredSearch.length === 0) {
-    searchResultsSection.innerHTML = `<p class="errorMessage">${customer.name}, no rooms available for either room type or date. Adjust your search</p>`
+    searchResultsSection.innerHTML = `<p class="errorMessage">We regret to inform you ${customer.name} that there are no rooms available for either room type or date. Please adjust your search</p>`
+    hide([homeButton])
     setTimeout( () => {
       hide([searchResultsSection])
       show([bookingSection])
       resetFilters()
-    }, 2000)
+    }, 3000)
   }
   else {
     filteredSearch.forEach(element => {
@@ -341,7 +345,7 @@ function removeRoom() {
 function confirmBooking() {
   searchResultsSection.innerHTML = `<p>${customer.name}, room booked!</p>`
   setTimeout( () => {
-    showAvailableRooms()
+    goHome()
       }, 2000)
 }
 
@@ -376,14 +380,3 @@ function updateBookings() {
   accounts.bookings.push(newBooking)
 }
 
-inputs.forEach(input => {
-  input.addEventListener('input', () => {
-    if(checkInDate.value !== '' && roomTypeChoices.value !== 'Choose Room Type...') {
-      searchButton.disabled = false
-      searchButton.style.cursor = "pointer";
-  }
-  else {
-    searchButton.disabled = true
-    }
-  })
-})
