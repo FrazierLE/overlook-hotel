@@ -285,7 +285,7 @@ function showAvailableRooms() {
       hide([searchResultsSection])
       show([bookingSection])
       resetFilters()
-    }, 2000)
+    }, 2500)
   }
   else {
     filteredSearch.forEach(element => {
