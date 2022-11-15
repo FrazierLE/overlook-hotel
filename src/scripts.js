@@ -77,9 +77,13 @@ function fetchData(urls) {
 }
 
 function findCustomerInfo() {
-  findUser = Number(usernameInput.value.split('username').join(''))
+  findUser = Number(usernameInput.value.split('customer').join(''))
   if(!inRange(findUser)) {
-    checkLogin()
+    show([loginMessage])
+    resetLogin()
+    setTimeout(() => {
+      hide([loginMessage])
+    }, 2000)
   }
   else {
     checkUsername()
@@ -91,10 +95,10 @@ function findCustomerInfo() {
 }
 
 function checkUsername() {
-  if(inRange(findUser) && usernameInput.value.includes('username')) {
+  if(inRange(findUser) && usernameInput.value.includes('customer')) {
     correctUsername = true;
   } 
-  else if(!usernameInput.value.includes('username')) {correctUsername = false}
+  else if(!usernameInput.value.includes('customer')) {correctUsername = false}
 }
 
 function checkPassword() {
@@ -168,6 +172,8 @@ inputs.forEach(input => {
     }
   })
 })
+
+// || new Date(checkInDate.value).getTime() < new Date(checkInDate.min).getTime()
 
 function logout() {
   show([loginPage])
@@ -288,11 +294,12 @@ function showAvailableRooms() {
   searchResultsSection.innerHTML = ''
   if(filteredSearch.length === 0) {
     searchResultsSection.innerHTML = `<p class="errorMessage">We regret to inform you ${customer.name} that there are no rooms available for either room type or date. Please adjust your search</p>`
+    hide([homeButton])
     setTimeout( () => {
       hide([searchResultsSection])
       show([bookingSection])
       resetFilters()
-    }, 2500)
+    }, 3000)
   }
   else {
     filteredSearch.forEach(element => {
@@ -339,7 +346,7 @@ function removeRoom() {
 function confirmBooking() {
   searchResultsSection.innerHTML = `<p>${customer.name}, room booked!</p>`
   setTimeout( () => {
-    showAvailableRooms()
+    goHome()
       }, 2000)
 }
 
