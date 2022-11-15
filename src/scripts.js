@@ -13,7 +13,6 @@ const roomsURL = 'http://localhost:3001/api/v1/rooms'
 const bookingsURL = 'http://localhost:3001/api/v1/bookings'
 let customers;
 let customer;
-let randomCustomer;
 let comparedDates;
 let chosenDate;
 let filteredSearch;
@@ -174,6 +173,7 @@ function logout() {
   show([loginPage])
   hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
   resetLogin()
+  resetFilters()
   title.innerText = `Welcome to the Overlook Hotel`
 }
 
