@@ -1,4 +1,3 @@
-
 import './css/styles.css';
 import './images/hotel-overlook.png'
 import './images/hotel-room.png'

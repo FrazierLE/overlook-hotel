@@ -7,6 +7,14 @@ html {
   background-color: ghostwhite;
 }
 
+header {
+  background-image: url(../images/hotel-overlook.png);
+  background-size: cover;
+  background-position-y: center;
+  height: 35vh;
+  width: 100vw;
+}
+
 .flex {
   display: flex;
 }
