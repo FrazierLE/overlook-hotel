@@ -67,6 +67,7 @@ function fetchData(urls) {
           customers = new Customers(apiCustomers.customers)
           booking = new Booking (apiBookings.bookings)
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
+          checkInDate.min = new Date().toLocaleDateString('en-ca')
           show([loginPage])
           hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
 
@@ -163,17 +164,15 @@ usernameInput.addEventListener('keypress', (event) => {
 
 inputs.forEach(input => {
   input.addEventListener('input', () => {
-    if(checkInDate.value !== '' && roomTypeChoices.value !== 'Choose Room Type...') {
+    if(checkInDate.value === '' || new Date(checkInDate.value).getTime() < new Date(checkInDate.min).getTime()) {
+      searchButton.disabled = true
+    }
+    else if(checkInDate.value !== '' && roomTypeChoices.value !== 'Choose Room Type...') {
       searchButton.disabled = false
       searchButton.style.cursor = "pointer";
     }
-    else {
-      searchButton.disabled = true
-    }
   })
 })
-
-// || new Date(checkInDate.value).getTime() < new Date(checkInDate.min).getTime()
 
 function logout() {
   show([loginPage])
