@@ -25,6 +25,8 @@ Overlook Hotel is an interactive, web-based application that allows users to log
 1. Run npm start in your terminal
 1. Go to http://localhost:8080/ and you should see the website
 1. Enter control + c in your terminal to stop the server(s) at any time.
+1. Username: customer with any number between 1-50
+1. Password: overlook2021
 
 ### Technologies Used
 - Javascript, HTML, CSS, Fetch API, webpack, NPM, Mocha, Chai, Lighthouse Accessibility Audit, WAVE, Colorblindness extension
