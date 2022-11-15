@@ -218,6 +218,7 @@ function goHome() {
   hide([homeButton, previousBookingSection, searchResultsSection])
   show([bookingSection, bookingHistoryButton])
   resetFilters()
+  title.innerText = `Welcome to the Overlook Hotel, ${customer.name}`
 }
 
 function activateCustomerMethods(rooms, bookings) {

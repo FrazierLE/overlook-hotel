@@ -22,8 +22,8 @@ describe('Single Customer', () => {
     sampleCustomers
     sampleBookings
     sampleRooms
-    customer1 = new singleCustomer(sampleCustomers[0])
-    customer2 = new singleCustomer(sampleCustomers[1])
+    customer1 = new singleCustomer(sampleCustomers[0], currentDate)
+    customer2 = new singleCustomer(sampleCustomers[1], currentDate)
   })
   
   it('should be a function', () => {
