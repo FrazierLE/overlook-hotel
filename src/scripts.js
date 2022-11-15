@@ -1,17 +1,7 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
 
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-// import './images/turing-logo.png'
-import './images/hotel.png'
 import './images/hotel-overlook.png'
 import './images/hotel-room.png'
-
-
-// console.log('This is the JavaScript entry file - your code begins here.');
 import getData from './apiCalls'
 import Customers from './classes/customers'
 import singleCustomer from './classes/singleCustomer';
@@ -233,7 +223,7 @@ function displayBookingHistory() {
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
   if(customer.previousBookings.length === 0) {
-    upcomingSection.innerHTML = `<p class="errorMessage">${customer.name}, you have no upcoming bookings.</p>`
+    upcomingSection.innerHTML = `<p class="errorMessage">Sorry ${customer.name}, you have no upcoming bookings.</p>`
   }
   else {
     customer.previousBookings.forEach(element => {
@@ -290,7 +280,7 @@ function showAvailableRooms() {
   show([homeButton, searchResultsSection])
   searchResultsSection.innerHTML = ''
   if(filteredSearch.length === 0) {
-    searchResultsSection.innerHTML = `<p class="errorMessage">${customer.name}, no rooms available for either room type or date. Adjust your search</p>`
+    searchResultsSection.innerHTML = `<p class="errorMessage">We regret to inform you ${customer.name} that there are no rooms available for either room type or date. Please adjust your search</p>`
     setTimeout( () => {
       hide([searchResultsSection])
       show([bookingSection])
