@@ -46,6 +46,7 @@ const passwordInput = document.querySelector('#password');
 const loginButton = document.querySelector('#login-button');
 const loginInputs = [usernameInput, passwordInput];
 const loginMessage = document.querySelector('#login-error-message')
+const roomDetails = document.querySelector('#roomDetails')
 
 window.addEventListener('load', fetchData([customersURL, roomsURL, bookingsURL]))
 bookingHistoryButton.addEventListener('click', displayBookingHistory);
@@ -68,7 +69,7 @@ function fetchData(urls) {
           accounts = new Accounts(apiBookings.bookings, apiRooms.rooms)
           checkInDate.min = new Date().toLocaleDateString('en-ca')
           show([loginPage])
-          hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
+          hide([roomDetails, bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
 
       })
       .catch(err => {
@@ -111,7 +112,7 @@ function checkPassword() {
 function checkLogin() {
   if(correctPassword && correctUsername) {
     displayHomePage()
-    hide([loginPage])
+    hide([loginPage, roomDetails])
     show([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, logoutButton])
   }
   else {
@@ -175,14 +176,15 @@ inputs.forEach(input => {
 
 function logout() {
   show([loginPage])
-  hide([bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
+  hide([roomDetails, bookingHistoryButton, bookingSection, searchResultsSection, upcomingSection, dollarsSpentSection, bookingSection, previousBookingSection, homeButton, logoutButton])
   resetLogin()
   resetFilters()
+  roomDetails.innerHTML = ''
   title.innerText = `Welcome to the Overlook Hotel`
 }
 
 function displayHomePage() {
-  hide([homeButton, previousBookingSection, searchResultsSection, loginPage])
+  hide([homeButton, previousBookingSection, searchResultsSection, loginPage, roomDetails])
   show([bookingSection, bookingHistoryButton])
   activateCustomerMethods(accounts.rooms, accounts.bookings)
   displayUpcomingBookings()
@@ -216,9 +218,10 @@ function displayDollarsSpent() {
 }
 
 function goHome() {
-  hide([homeButton, previousBookingSection, searchResultsSection])
+  hide([roomDetails, homeButton, previousBookingSection, searchResultsSection])
   show([bookingSection, bookingHistoryButton])
   resetFilters()
+  roomDetails.innerHTML = ''
   title.innerText = `Welcome to the Overlook Hotel, ${customer.name}`
 }
 
@@ -230,7 +233,8 @@ function activateCustomerMethods(rooms, bookings) {
 
 function displayBookingHistory() {
   show([homeButton, previousBookingSection])
-  hide([bookingHistoryButton, bookingSection, searchResultsSection])
+  hide([bookingHistoryButton, bookingSection, searchResultsSection, roomDetails])
+  roomDetails.innerHTML = ''
   previousBookingSection.innerHTML = ''
   title.innerText = 'Previous Bookings';
   if(customer.previousBookings.length === 0) {
@@ -287,14 +291,14 @@ function filterByRoomType() {
 }
 
 function showAvailableRooms() {
-  hide([bookingSection])
+  hide([bookingSection, roomDetails])
   show([homeButton, searchResultsSection])
   searchResultsSection.innerHTML = ''
   if(filteredSearch.length === 0) {
     searchResultsSection.innerHTML = `<p class="errorMessage">We regret to inform you ${customer.name} that there are no rooms available for either room type or date. Please adjust your search</p>`
     hide([homeButton])
     setTimeout( () => {
-      hide([searchResultsSection])
+      hide([searchResultsSection, roomDetails])
       show([bookingSection])
       resetFilters()
     }, 3000)
@@ -380,3 +384,22 @@ function updateBookings() {
   accounts.bookings.push(newBooking)
 }
 
+
+upcomingSection.addEventListener('click', displayRoomDetails)
+function displayRoomDetails(event) {
+  show([homeButton, roomDetails])
+  hide([bookingSection])
+  const details = accounts.bookings.find(room => event.target.parentNode.id === room.id)
+  const findThatRoom = accounts.rooms.find(room => details.roomNumber === room.number)
+  roomDetails.innerHTML = `
+  <section>
+  <img src='./images/hotel-room.png' class="hotelRooms" alt='hotel room'>
+  <p>Number: ${findThatRoom.number}</p>
+  <p>RoomType: ${findThatRoom.roomType}</p>
+  <p>Bidet: ${findThatRoom.bidet}</p>
+  <p>Bedsize: ${findThatRoom.bedSize}</p>
+  <p>Number of Beds: ${findThatRoom.numBeds}</p>
+  <p>Cost: ${findThatRoom.costPerNight}</p>
+  <p>Date: ${details.date}</p>
+  </section>`
+}
