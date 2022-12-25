@@ -57,6 +57,8 @@ searchButton.addEventListener('click', showAvailableRooms);
 searchResultsSection.addEventListener('click', bookIt);
 loginButton.addEventListener('click', findCustomerInfo);
 logoutButton.addEventListener('click', logout);
+previousBookingSection.addEventListener('click', getDetails);
+upcomingSection.addEventListener('click', getDetails)
 
 function fetchData(urls) {
   Promise.all([getData(urls[0]), getData(urls[1]), getData(urls[2])])
@@ -384,11 +386,9 @@ function updateBookings() {
   accounts.bookings.push(newBooking)
 }
 
-
-upcomingSection.addEventListener('click', displayRoomDetails)
-function displayRoomDetails(event) {
+function getDetails(event) {
   show([homeButton, roomDetails])
-  hide([bookingSection])
+  hide([bookingSection, previousBookingSection])
   const details = accounts.bookings.find(room => event.target.parentNode.id === room.id)
   const findThatRoom = accounts.rooms.find(room => details.roomNumber === room.number)
   roomDetails.innerHTML = `
