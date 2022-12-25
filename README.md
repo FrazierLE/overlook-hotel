@@ -3,6 +3,7 @@
 ## Abstract
 Overlook Hotel is an interactive, web-based application that allows users to log into their account and book a hotel room. Using HTML, CSS, JavaScript, and APIs, we built our app to allow users to view their upcoming bookings, previous bookings, and the total amount of dollars spent on previous bookings. Users are also able to select a date, filter the room type, and check the availability of rooms before booking one. 
 
+
 ### Preview of Application
 #### Login Page
 <img width="1440" alt="Screen Shot 2022-11-14 at 3 23 33 PM" src="https://user-images.githubusercontent.com/108101979/201780885-5c03e772-096c-48f6-8ff5-073a2517a6cd.png">
@@ -27,6 +28,10 @@ Overlook Hotel is an interactive, web-based application that allows users to log
 1. Enter control + c in your terminal to stop the server(s) at any time.
 1. Username: customer with any number between 1-50
 1. Password: overlook2021
+
+### Login Instructions
+Username: customer + any number between 1 and 50
+Password: overlook2021
 
 ### Technologies Used
 - Javascript, HTML, CSS, Fetch API, webpack, NPM, Mocha, Chai, Lighthouse Accessibility Audit, WAVE, Colorblindness extension
