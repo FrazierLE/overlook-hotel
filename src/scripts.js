@@ -345,6 +345,7 @@ function confirmBooking() {
   searchResultsSection.innerHTML = `<p>${customer.name}, room booked!</p>`
   setTimeout( () => {
     goHome()
+    searchResultsSection.innerHTML = ''
       }, 2000)
 }
 
